@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .tab-active {
+      border-bottom: 2px solid #3b82f6;
+      color: #3b82f6;
+    }
+
+    .author-profile-holder {
+      text-align: center;
+      background-color: #f4f4f4;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .author-profile-holder img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    .author-info h3 {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .author-info p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .author-info .bio {
+      font-size: 12px;
+      color: #888;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Title at Top -->
+  <header class="bg-white shadow p-4">
+    <h1 class="text-3xl font-bold text-center">Project Management System</h1>
+  </header>
+
+  <!-- Top Selectors -->
+  <div class="max-w-6xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-blue-100 p-4 rounded">
+      <label class="block text-sm font-semibold mb-1">VBS categorisation (cluster of similar products)</label>
+      <select class="w-full p-2 border rounded">
+        <option>Select project</option>
+        <option>Project 1</option>
+        <option>Project 2</option>
+        <option>Project 3</option>
+        <option>Project 4</option>
+      </select>
+    </div>
+
+    <div class="bg-blue-100 p-4 rounded border">
+      <label class="block text-sm font-semibold mb-1">P3 Projects</label>
+      <select class="w-full p-2 border rounded">
+        <option>Select project</option>
+        <option>Project 1</option>
+        <option>Project 2</option>
+        <option>Project 3</option>
+        <option>Project 4</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Tabs + Right Column -->
+  <div class="max-w-6xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Left: Tabs -->
+    <div class="md:col-span-2 bg-white p-4 rounded shadow">
+      <div class="flex space-x-4 border-b mb-4">
+        <button onclick="showTab('about')" id="tab-about" class="tab-active pb-2 font-medium">About</button>
+        <button onclick="showTab('motivation')" id="tab-motivation" class="pb-2 font-medium">Motivation</button>
+        <button onclick="showTab('goal')" id="tab-goal" class="pb-2 font-medium">Goal</button>
+        <!-- <button onclick="showTab('faq')" id="tab-faq" class="pb-2 font-medium">FAQs/Feedback</button> -->
+        <button onclick="showTab('faq')" id="tab-faq" class="pb-2 font-medium">FAQs/Feedback</button>
+
+      </div>
+
+      <!-- Tab Content -->
+      <div id="about" class="tab-content">
+        <p>This project aims to create a centralized project management system that facilitates collaboration, documentation, and tracking for all organizational projects. The system will provide a standardized approach to managing project artifacts, team communication, and status reporting across all departments.</p>
+        <p class="mt-2">The platform integrates with existing tools while providing a unified interface for project visibility and governance. It supports both traditional and agile methodologies and offers customizable workflows to adapt to various project types.</p>
+      </div>
+      <div id="motivation" class="tab-content hidden">
+        <p>The motivation behind this system is to eliminate fragmentation and improve traceability across project lifecycle stages.</p>
+      </div>
+      <div id="goal" class="tab-content hidden">
+        <p>Our goal is to deliver a modular, scalable system that enhances visibility, reduces duplication, and drives accountability in project execution.</p>
+      </div>
+      <div id="faq" class="tab-content hidden">
+            <!-- Feedback Form -->
+            <div class="bg-white p-4 rounded shadow">
+              <h2 class="text-lg font-semibold mb-4 text-center">Feedback Form</h2>
+              <form class="space-y-4">
+                <div>
+                  <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                  <input type="text" id="name" class="w-full p-2 border rounded mt-1" placeholder="Your Name" required />
+                </div>
+                <div>
+                  <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                  <input type="email" id="email" class="w-full p-2 border rounded mt-1" placeholder="Your Email" required />
+                </div>
+                <div>
+                  <label for="feedback" class="block text-sm font-medium text-gray-700">Feedback</label>
+                  <textarea id="feedback" class="w-full p-2 border rounded mt-1" placeholder="Your Feedback" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Submit</button>
+              </form>
+            </div>
+      </div>
+    </div>
+
+    <!-- Right: Carousel + Feedback -->
+    <div class="flex flex-col gap-6">
+
+      <!-- Carousel -->
+      <div class="bg-white p-4 rounded shadow text-center">
+        <h2 class="text-lg font-semibold mb-2">Screenshots/Carousels</h2>
+        <div class="relative">
+          <img src="https://via.placeholder.com/400x250?text=Project+Wireframe" alt="Carousel" class="rounded" />
+          <button class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-1 rounded-full shadow">&lt;</button>
+          <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-1 rounded-full shadow">&gt;</button>
+        </div>
+        <p class="mt-2 text-sm text-gray-600">Project Dashboard Wireframe</p>
+      </div>
+
+
+      <!-- Feedback Form -->
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold mb-4 text-center">Feedback Form</h2>
+        <form class="space-y-4">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" id="name" class="w-full p-2 border rounded mt-1" placeholder="Your Name" required />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="email" class="w-full p-2 border rounded mt-1" placeholder="Your Email" required />
+          </div>
+          <div>
+            <label for="feedback" class="block text-sm font-medium text-gray-700">Feedback</label>
+            <textarea id="feedback" class="w-full p-2 border rounded mt-1" placeholder="Your Feedback" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Submit</button>
+        </form>
+      </div>
+
+      
+
+    </div>
+
+  </div>
+
+  <!-- Authors Section (Full Width) -->
+  <div class="max-w-6xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+  <div class="md:col-span-2 bg-white p-4 rounded shadow ">
+  <!-- <div class="max-w-6xl mx-auto mt-8 px-8"> -->
+    <div class="bg-white p-4 rounded shadow">
+      <div class="flex space-x-4 border-b mb-4">
+        <button onclick="showTab('authors')" id="tab-authors" class="tab-active pb-2 font-medium">
+          <span class="icon">👥 Authors</span>
+        </button>
+      </div>
+      <!-- Authors Layout -->
+      <!-- md:col-span-2 bg-white p-4 rounded shadow -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-3">
+
+        <!-- Author 1 -->
+        <div class="author-profile-holder">
+          <img src="https://en.reset.org/app/themes/reset/images/no-author.png" alt="Author Image 1">
+          <div class="author-info">
+            <h3>Author 1</h3>
+            <p>Role 1</p>
+            <p class="bio">This is a short bio or description about Author 1.</p>
+          </div>
+        </div>
+
+        <!-- Author 2 -->
+        <div class="author-profile-holder">
+          <img src="https://en.reset.org/app/themes/reset/images/no-author.png" alt="Author Image 2">
+          <div class="author-info">
+            <h3>Author 2</h3>
+            <p>Role 2</p>
+            <p class="bio">This is a short bio or description about Author 2.</p>
+          </div>
+        </div>
+
+        <!-- Author 3 -->
+        <div class="author-profile-holder">
+          <img src="https://en.reset.org/app/themes/reset/images/no-author.png" alt="Author Image 3">
+          <div class="author-info">
+            <h3>Author 3</h3>
+            <p>Role 3</p>
+            <p class="bio">This is a short bio or description about Author 3.</p>
+          </div>
+        </div>
+
+        <!-- Author 4 -->
+        <div class="author-profile-holder">
+          <img src="https://en.reset.org/app/themes/reset/images/no-author.png" alt="Author Image 4">
+          <div class="author-info">
+            <h3>Author 4</h3>
+            <p>Role 4</p>
+            <p class="bio">This is a short bio or description about Author 4.</p>
+          </div>
+        </div>
+
+        <!-- Author 5 -->
+        <div class="author-profile-holder">
+          <img src="https://en.reset.org/app/themes/reset/images/no-author.png" alt="Author Image 5">
+          <div class="author-info">
+            <h3>Author 5</h3>
+            <p>Role 5</p>
+            <p class="bio">This is a short bio or description about Author 5.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Feedback Form -->
+    <div class="flex flex-col gap-6 max-h-[500px] overflow-y-auto">
+
+      <!-- Carousel -->
+      <div class="bg-white p-4 rounded shadow text-center">
+        <h2 class="text-lg font-semibold mb-2">Screenshots/Carousels</h2>
+        <div class="relative">
+          <img src="https://via.placeholder.com/400x250?text=Project+Wireframe" alt="Carousel" class="rounded" />
+          <button class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-1 rounded-full shadow">&lt;</button>
+          <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-1 rounded-full shadow">&gt;</button>
+        </div>
+        <p class="mt-2 text-sm text-gray-600">Project Dashboard Wireframe</p>
+      </div>
+
+
+      <!-- Feedback Form -->
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold mb-4 text-center">Feedback Form</h2>
+        <form class="space-y-4">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" id="name" class="w-full p-2 border rounded mt-1" placeholder="Your Name" required />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="email" class="w-full p-2 border rounded mt-1" placeholder="Your Email" required />
+          </div>
+          <div>
+            <label for="feedback" class="block text-sm font-medium text-gray-700">Feedback</label>
+            <textarea id="feedback" class="w-full p-2 border rounded mt-1" placeholder="Your Feedback" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Submit</button>
+        </form>
+      </div>
+
+            <!-- Feedback Form -->
+            <div class="bg-white p-4 rounded shadow">
+              <h2 class="text-lg font-semibold mb-4 text-center">Feedback Form</h2>
+              <form class="space-y-4">
+                <div>
+                  <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                  <input type="text" id="name" class="w-full p-2 border rounded mt-1" placeholder="Your Name" required />
+                </div>
+                <div>
+                  <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                  <input type="email" id="email" class="w-full p-2 border rounded mt-1" placeholder="Your Email" required />
+                </div>
+                <div>
+                  <label for="feedback" class="block text-sm font-medium text-gray-700">Feedback</label>
+                  <textarea id="feedback" class="w-full p-2 border rounded mt-1" placeholder="Your Feedback" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Submit</button>
+              </form>
+            </div>
+
+  </div>
+
+  </div>
+
+  
+
+  <!-- JavaScript for Tabs -->
+  <script>
+    function showTab(tab) {
+      const tabs = ['about', 'motivation', 'goal', 'faq', 'authors'];
+      tabs.forEach(t => {
+        const el = document.getElementById(t);
+        if (el) el.classList.add('hidden');
+  
+        const btn = document.getElementById('tab-' + t);
+        if (btn) {
+          btn.classList.remove('tab-active', 'drop-shadow-[0_4px_4px_rgba(59,130,246,0.5)]');
+        }
+      });
+  
+      const activeEl = document.getElementById(tab);
+      const activeBtn = document.getElementById('tab-' + tab);
+      if (activeEl) activeEl.classList.remove('hidden');
+      if (activeBtn) activeBtn.classList.add('tab-active', 'drop-shadow-[0_4px_4px_rgba(59,130,246,0.5)]');
+    }
+  </script>
+
+  
+
+</body>
+</html>
