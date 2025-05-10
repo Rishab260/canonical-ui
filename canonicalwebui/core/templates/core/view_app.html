@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>App Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .app-detail {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        h3 {
+            color: #007bff;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .screenshots img {
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .screenshots {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .screenshots img {
+            margin: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        .screenshots img:hover {
+            transform: scale(1.05);
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .approval-links {
+            margin-top: 20px;
+        }
+        .artifacts {
+            margin-top: 20px;
+        }
+        .artifact-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>{{ app.name }}</h1>
+
+    <div class="app-detail">
+        <p><strong>Developer:</strong> {{ app.developer.username }}</p>
+        <p><strong>Description:</strong> {{ app.description }}</p>
+        <p><strong>Category:</strong> {{ app.category.name }}</p>
+    </div>
+
+    <h3>Screenshots</h3>
+    <div class="screenshots">
+        {% for screenshot in app.screenshots.all %}
+            <img src="{{ screenshot.image.url }}" alt="Screenshot" width="200">
+        {% empty %}
+            <p>No screenshots available.</p>
+        {% endfor %}
+    </div>
+
+    <h3>Artifacts</h3>
+    <div class="artifacts">
+        {% for artifact in app.artifacts.all %}
+            <div class="artifact-item">
+                {% if artifact.document %}
+                    <p><strong>File:</strong> <a href="{{ artifact.document.url }}" target="_blank">{{ artifact.document.name }}</a></p>
+                {% endif %}
+                {% if artifact.hyperlink %}
+                    <p><strong>Link:</strong> <a href="{{ artifact.hyperlink }}" target="_blank">{{ artifact.hyperlink }}</a></p>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No artifacts available.</p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

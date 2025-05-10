@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CanonicalWebUI - Login</title>
+    <!-- Materialize CSS for Material Design -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+    <!-- Login Form -->
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <h2 class="center-align">Login</h2>
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Form Fields -->
+                    <div class="input-field">
+                        <input type="text" name="username" id="id_username" class="validate" value="{{ form.username.value }}">
+                        <label for="id_username">Username</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input type="password" name="password" id="id_password" class="validate" value="{{ form.password.value }}">
+                        <label for="id_password">Password</label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn">Login</button>
+                </form>
+                <a href="{% url 'core:register' %}">Don't have an account? Register</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery and Materialize JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
