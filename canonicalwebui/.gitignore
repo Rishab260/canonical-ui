@@ -1,0 +1,81 @@
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Django files
+*.log
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+static/
+
+# Virtual environment
+venv/
+env/
+.venv/
+.env/
+
+# Django migrations
+*/migrations/*
+!*/migrations/__init__.py
+
+# MySQL and PostgreSQL databases
+*.sql
+*.db
+*.db3
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/settings.json
+
+# PyCharm settings
+.idea/
+
+# Test and coverage
+.coverage
+nosetests.xml
+coverage.xml
+*.cover
+
+# Distribution and packaging
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Django Secrets
+*.key
+*.pem
+
+# Files for caching and backup
+*.bak
+*.swp
+*.swo
+*.tmp
+*.~*
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# .env files with environment variables
+.env
+.env.*
+
+# pyenv
+.python-version
+
+# Pipenv
+Pipfile.lock

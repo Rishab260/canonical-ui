@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Approve or Reject App</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body class="container">
+
+    <h3 class="center-align">Approve or Reject App</h3>
+
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ app.name }}</span>
+
+            <p><strong>Description:</strong> {{ app.description }}</p>
+            <p><strong>Category:</strong> {{ app.category.name }}</p>
+
+            <p><strong>Contributors:</strong></p>
+            <ul class="collection">
+                {% for contributor in app.contributors.all %}
+                    <li class="collection-item">{{ contributor.username }}</li>
+                {% empty %}
+                    <li class="collection-item">No contributors listed.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="card-action">
+            <a href="#!" class="btn green" onclick="handleAppAction('approve')">Approve</a>
+            <a href="#!" class="btn red" onclick="handleAppAction('reject')">Reject</a>
+        </div>
+    </div>
+
+    <script>
+        function handleAppAction(action) {
+            $.ajax({
+                url: window.location.href,
+                type: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                data: {action: action},
+                success: function(response) {
+                    M.toast({html: `App ${action}d successfully!`});
+                    window.location.href = "{% url 'core:admin_dashboard' %}";
+                },
+                error: function() {
+                    M.toast({html: 'Action failed — check permissions.'});
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

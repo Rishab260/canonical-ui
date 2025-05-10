@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CanonicalWebUI - App Store</title>
+    <!-- Materialize CSS for Material Design -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <style>
+        .app-card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .app-card:hover {
+            transform: scale(1.05);
+        }
+
+        .app-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .app-description {
+            font-size: 14px;
+            color: #666;
+            height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .app-btn {
+            display: block;
+            margin-top: 15px;
+            background-color: #0D47A1;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .app-btn:hover {
+            background-color: #1565C0;
+        }
+
+        .app-grid {
+            margin-top: 20px;
+        }
+
+        .app-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+
+        .app-card-wrapper {
+            width: 22%;
+            margin-bottom: 20px;
+        }
+
+        /* Mobile responsiveness */
+        @media screen and (max-width: 768px) {
+            .app-card-wrapper {
+                width: 45%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .app-card-wrapper {
+                width: 100%;
+            }
+        }
+
+        .filter-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <nav>
+        <div class="nav-wrapper blue">
+            <a href="#" class="brand-logo center">CanonicalWebUI</a>
+            <ul class="left hide-on-med-and-down">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'core:logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'core:login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- User Greeting -->
+    <div class="container">
+        {% if user.is_authenticated %}
+            <h3 class="center-align">Welcome, {{ user.username }}!</h3>
+        {% else %}
+            <h3 class="center-align">Welcome to the CanonicalWebUI App Store</h3>
+        {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Search and Filters -->
+        <div class="filter-container">
+            <form method="GET" class="row" id="filter-form">
+                <!-- Search Field -->
+                <div class="input-field col s12 m6 l4">
+                    <input id="search" type="text" name="search" value="{{ search_query }}">
+                    <label for="search">Search Apps</label>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="input-field col s12 m4 l3">
+                    <select name="category">
+                        <option value="" {% if not selected_category %}selected{% endif %}>All Categories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Filter by Category</label>
+                </div>
+
+                <!-- Team Filter -->
+                <div class="input-field col s12 m4 l3">
+                    <select name="team">
+                        <option value="" {% if not selected_team %}selected{% endif %}>All Teams</option>
+                        {% for team in teams %}
+                            <option value="{{ team.id }}" {% if selected_team == team.id|stringformat:"s" %}selected{% endif %}>{{ team.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Filter by Team</label>
+                </div>
+            </form>
+        </div>
+
+        <!-- App Grid -->
+        <div class="app-grid">
+            <div class="app-card-container">
+                {% for app in apps %}
+                    <div class="app-card-wrapper">
+                        <div class="card app-card">
+                            <div class="card-image">
+                                <img src="{{ app.screenshots.first.image.url }}" alt="{{ app.name }}">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">{{ app.name }}</span>
+                                <p class="app-description">{{ app.description }}</p>
+                                <a href="{{ app.get_absolute_url }}" class="app-btn">Visit App</a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="center-align">No approved apps yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="page-footer blue">
+        <div class="container">
+            <p class="white-text center-align">© 2025 CanonicalWebUI App Store</p>
+        </div>
+    </footer>
+
+    <!-- jQuery and Materialize JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        // Initialize Materialize components
+        $(document).ready(function(){
+            $('select').formSelect();
+
+            // Trigger form submission on pressing Enter in the search field
+            $('#search').on('keypress', function(e) {
+                if (e.which === 13) {  // Enter key
+                    $('#filter-form').submit();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

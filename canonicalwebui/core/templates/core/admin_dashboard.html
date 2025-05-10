@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body class="container">
+
+    <h3 class="center-align">Pending App Approvals</h3>
+
+    <ul class="collection">
+        {% for app in pending_apps %}
+            <li class="collection-item" id="app-{{ app.id }}">
+                <span class="title"><strong>{{ app.name }}</strong></span>
+                <p>
+                    Submitted by: <em>{{ app.developer.username }}</em><br>
+                    <a href="{% url 'core:view_app_details' app.id %}" class="btn-small">View Details</a>
+                    <a href="#!" class="btn-small green" onclick="approveApp({{ app.id }})">Approve</a>
+                </p>
+            </li>
+        {% empty %}
+            <li class="collection-item">No apps pending approval.</li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        function approveApp(appId) {
+            $.ajax({
+                url: `/approve-app/${appId}/`,
+                type: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                success: function (response) {
+                    M.toast({html: 'App approved!'})
+                    $('#app-' + appId).fadeOut()
+                },
+                error: function () {
+                    M.toast({html: 'Approval failed. Check permissions or try again.'})
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

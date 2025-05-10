@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CanonicalWebUI - Register</title>
+    <!-- Materialize CSS for Material Design -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+    <!-- Register Form -->
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <h2 class="center-align">Register</h2>
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Form Fields -->
+                    <div class="input-field">
+                        <input type="text" name="username" id="id_username" class="validate" value="{{ form.username.value }}">
+                        <label for="id_username">Username</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input type="email" name="email" id="id_email" class="validate" value="{{ form.email.value }}">
+                        <label for="id_email">Email</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input type="password" name="password1" id="id_password1" class="validate" value="{{ form.password1.value }}">
+                        <label for="id_password1">Password</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input type="password" name="password2" id="id_password2" class="validate" value="{{ form.password2.value }}">
+                        <label for="id_password2">Confirm Password</label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn">Register</button>
+                </form>
+
+                <a href="{% url 'core:login' %}">Already have an account? Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery and Materialize JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
