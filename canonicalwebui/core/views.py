@@ -1,15 +1,21 @@
+from __future__ import annotations
+
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.shortcuts import render
 
-from .forms import CustomUserCreationForm, AppForm
-from .models import App, Category, Team, Screenshot, Artifact
-from django.shortcuts import render, redirect
-from django.contrib import messages
 from .forms import AppForm
-
+from .forms import CustomUserCreationForm
+from .models import App
+from .models import Artifact
+from .models import Category
+from .models import Screenshot
+from .models import Team
 
 
 # User registration view
@@ -39,7 +45,10 @@ def landing_page(request):
     apps = App.objects.filter(is_approved=True)  # Only show approved apps
 
     if search_query:
-        apps = apps.filter(Q(name__icontains=search_query) | Q(description__icontains=search_query))
+        apps = apps.filter(
+            Q(name__icontains=search_query) |
+            Q(description__icontains=search_query),
+        )
     if selected_category:
         apps = apps.filter(category__id=selected_category)
     if selected_team:
@@ -72,10 +81,12 @@ def is_developer(user):
 def view_app(request, id):
     app = get_object_or_404(App, id=id)
     teams_involved = app.teams_involved.all()
-    return render(request, 'core/view_app.html', {
-        'app': app,
-        'teams_involved': teams_involved
-    })
+    return render(
+        request, 'core/view_app.html', {
+            'app': app,
+            'teams_involved': teams_involved,
+        },
+    )
 
 
 # Submit an app (developer only)
@@ -95,23 +106,30 @@ def submit_app(request):
             if 'screenshots' in request.FILES:
                 screenshots = request.FILES.getlist('screenshots')
                 for screenshot in screenshots:
-                    Screenshot.objects.create(app=app, image=screenshot)  # Save each screenshot
+                    Screenshot.objects.create(
+                        app=app, image=screenshot,
+                    )  # Save each screenshot
 
             # Handle the artifacts (file uploads)
             if 'artifacts_files' in request.FILES:
                 artifacts_files = request.FILES.getlist('artifacts_files')
                 for artifact_file in artifacts_files:
-                    Artifact.objects.create(app=app, document=artifact_file)  # Save document or file
+                    # Save document or file
+                    Artifact.objects.create(app=app, document=artifact_file)
 
             # Handle the hyperlinks (comma-separated links)
             artifacts_links = request.POST.get('artifacts_links', '')
             if artifacts_links:
                 links = [link.strip() for link in artifacts_links.split(',')]
                 for link in links:
-                    Artifact.objects.create(app=app, hyperlink=link)  # Save hyperlink
+                    Artifact.objects.create(
+                        app=app, hyperlink=link,
+                    )  # Save hyperlink
 
             # Show success message and redirect
-            messages.success(request, 'App submitted successfully. Awaiting admin approval.')
+            messages.success(
+                request, 'App submitted successfully. Awaiting admin approval.',
+            )
             return redirect('core:landing_page')
     else:
         form = AppForm()
@@ -119,6 +137,8 @@ def submit_app(request):
     return render(request, 'core/submit_app.html', {'form': form})
 
 # Admin dashboard to view pending apps
+
+
 def admin_dashboard(request):
     if not request.user.is_superuser:
         return redirect('core:landing_page')  # Redirect if not an admin
@@ -134,10 +154,12 @@ def view_app_details(request, app_id):
         return redirect('core:landing_page')  # Redirect if not an admin
 
     teams_involved = app.teams_involved.all()
-    return render(request, 'core/app_details.html', {
-        'app': app,
-        'teams_involved': teams_involved
-    })
+    return render(
+        request, 'core/app_details.html', {
+            'app': app,
+            'teams_involved': teams_involved,
+        },
+    )
 
 
 # Approve app by admin

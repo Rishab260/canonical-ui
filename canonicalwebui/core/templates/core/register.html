@@ -16,7 +16,7 @@
                 <h2 class="center-align">Register</h2>
                 <form method="post">
                     {% csrf_token %}
-                    
+
                     <!-- Form Fields -->
                     <div class="input-field">
                         <input type="text" name="username" id="id_username" class="validate" value="{{ form.username.value }}">
@@ -41,7 +41,7 @@
                     <!-- Submit Button -->
                     <button type="submit" class="btn">Register</button>
                 </form>
-                
+
                 <a href="{% url 'core:login' %}">Already have an account? Login</a>
             </div>
         </div>

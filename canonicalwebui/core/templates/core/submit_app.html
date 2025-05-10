@@ -82,22 +82,22 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-    
+
         <!-- Multiple file input for screenshots -->
         <label for="screenshots">Screenshots</label>
         <input type="file" name="screenshots" multiple>
-    
+
         <!-- Multiple file input for artifacts -->
         <label for="artifacts_files">Artifacts</label>
         <input type="file" name="artifacts_files" multiple>
-    
+
         <!-- Textarea for hyperlinks -->
         <label for="artifacts_links">Artifacts Links</label>
         <textarea name="artifacts_links" placeholder="Enter hyperlinks (comma separated)" class="form-control"></textarea>
-    
+
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    
+
 
     <p><a href="{% url 'core:landing_page' %}">← Back to App Store</a></p>
 </body>

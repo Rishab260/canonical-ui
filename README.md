@@ -36,7 +36,7 @@ Canonical Escalators
 1. Member: A person using the product
     1. User ID
     2. Team id
-2. Team: 
+2. Team:
     3. Team id
     4. Team name
 3. Projects:
