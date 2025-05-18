@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vaco Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+    }
+
+    .left, .right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .left {
+  width: 40%;
+  background: #ffffff;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+}
+
+.left .logo-text h1 {
+  font-size: 40px;
+  color: #003366;
+}
+
+.left .logo-text p {
+  font-size: 30px;
+  color: #555;
+}
+
+
+
+    .right {
+      width: 70%;
+      background-color: #f9f9f9;
+    }
+
+    .logo {
+      width: 200px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .left h1 {
+      font-size: 32px;
+      color: #003366;
+    }
+
+    .left p {
+      font-size: 18px;
+      color: #555;
+    }
+
+    .login-form {
+      width: 600px;
+      background: white;
+      padding: 40px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+    }
+
+    .form-tabs {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-size: 16px;
+      cursor: pointer;
+      color: #555;
+      font-weight: bold;
+      transition: border-bottom 0.3s, color 0.3s;
+    }
+
+    .tab:hover {
+      color: #000;
+    }
+
+    .tab.active {
+      border-bottom: 3px solid #000;
+      color: #000;
+    }
+
+    .login-form h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .login-form label {
+      font-size: 14px;
+      margin-top: 15px;
+      display: block;
+      color: #555;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .forgot {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+
+    .forgot a {
+      font-size: 12px;
+      text-decoration: none;
+      color: #007BFF;
+    }
+
+    .login-btn {
+      width: 100%;
+      background-color: #000;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .google-btn {
+      width: 100%;
+      background-color: #ff6b6b;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .google-btn img {
+      width: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left">
+        <img src="img/LOGO.jpeg" alt="Vaco Logo" class="logo">
+        <div class="logo-text">
+          <h1>Vaco</h1>
+          <p>Binary Semantics</p>
+        </div>
+      </div>
+      
+    <div class="right">
+      <form class="login-form">
+        <div class="form-tabs">
+          <button type="button" class="tab active" onclick="showForm('login')">Login</button>
+          <button type="button" class="tab" onclick="showForm('signup')">Signup</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form-content">
+          <h2>Login to your Account</h2>
+          <label>Email</label>
+          <input type="email" placeholder="abc123@gmail.com" required />
+          
+          <label>Password</label>
+          <input type="password" placeholder="************" required />
+
+          <div class="forgot">
+            <a href="#">Forget password ?</a>
+          </div>
+
+          <button type="submit" class="login-btn">Log in</button>
+
+          <!-- <button type="button" class="google-btn">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" />
+            Log in with Google
+          </button> -->
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signup-form-content" style="display: none;">
+          <h2>Create a New Account</h2>
+          <label>Full Name</label>
+          <input type="text" placeholder="John Doe" required />
+
+          <label>Email</label>
+          <input type="email" placeholder="abc123@gmail.com" required />
+
+          <label>Password</label>
+          <input type="password" placeholder="************" required />
+
+          <label>Confirm Password</label>
+          <input type="password" placeholder="************" required />
+
+          <button type="submit" class="login-btn">Sign up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function showForm(type) {
+      const loginForm = document.getElementById('login-form-content');
+      const signupForm = document.getElementById('signup-form-content');
+      const tabs = document.querySelectorAll('.tab');
+
+      if (type === 'login') {
+        loginForm.style.display = 'block';
+        signupForm.style.display = 'none';
+      } else {
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+      }
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      document.querySelector(`.tab[onclick="showForm('${type}')"]`).classList.add('active');
+    }
+  </script>
+</body>
+</html>
