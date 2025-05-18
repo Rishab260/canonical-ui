@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>CryptoInsight: Bitcoin Market Analyzer</title>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+	<style>
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			font-family: 'Inter', sans-serif;
+			margin: 0;
+			padding: 0;
+			background: #f9f9fb;
+			color: #1c1c1e;
+		}
+
+		.navbar {
+			background: white;
+			padding: 1rem 2rem;
+			border-bottom: 1px solid #ddd;
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+		}
+
+		.navbar ul {
+			display: flex;
+			gap: 2rem;
+			list-style: none;
+			justify-content: center;
+			/* changed here */
+			margin: 0;
+			padding: 0;
+		}
+
+
+		.navbar li {
+			cursor: pointer;
+			font-weight: 500;
+		}
+
+		.navbar a {
+			text-decoration: none;
+			color: inherit;
+		}
+
+		.container {
+			max-width: 960px;
+			margin: 2rem auto;
+			padding: 0 1rem;
+		}
+
+		.app-header {
+			display: flex;
+			gap: 1.5rem;
+			align-items: center;
+			margin-bottom: 2rem;
+		}
+
+		.app-icon {
+			width: 80px;
+			height: 80px;
+			border-radius: 16px;
+		}
+
+		.app-details h1 {
+			font-size: 1.5rem;
+			margin: 0.2rem 0;
+			color: #6f42c1;
+		}
+
+		.tag {
+			background-color: #e0f0ff;
+			color: #0056b3;
+			font-size: 0.75rem;
+			padding: 4px 8px;
+			border-radius: 6px;
+			display: inline-block;
+		}
+
+		.rating {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			font-size: 1rem;
+			margin: 0.5rem 0;
+		}
+
+		.category {
+			color: #f39c12;
+			font-weight: 500;
+		}
+
+		.screenshots h2 {
+			font-size: 1.2rem;
+			margin-bottom: 1rem;
+		}
+
+		.carousel-wrapper {
+			position: relative;
+			width: 750px;
+			/* 3 images * 150px + 2 gaps * 10px (approx) */
+			margin: 0 auto;
+		}
+
+		.carousel {
+			display: flex;
+			gap: 10px;
+			overflow: hidden;
+			/* Hide extra images */
+			scroll-behavior: smooth;
+			width: 100%;
+		}
+
+		.carousel img {
+			flex: 0 0 150px;
+			/* Fixed width per image */
+			height: 450px;
+			width: 300px;
+			object-fit: cover;
+			border-radius: 1rem;
+		}
+
+		.carousel-btn {
+			background-color: rgba(111, 66, 193, 0.8);
+			border: none;
+			color: white;
+			font-size: 2rem;
+			padding: 0.25rem 0.75rem;
+			cursor: pointer;
+			border-radius: 50%;
+			user-select: none;
+			transition: background-color 0.3s;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 10;
+		}
+
+		.carousel-btn:hover {
+			background-color: rgba(111, 66, 193, 1);
+		}
+
+		.left-btn {
+			left: -25px;
+		}
+
+		.right-btn {
+			right: -25px;
+		}
+
+
+
+
+		.summary,
+		.section {
+			margin-top: 3rem;
+			padding: 2rem;
+			background: white;
+			border-radius: 12px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+		}
+
+		.summary h3,
+		.section h3 {
+			font-size: 1.2rem;
+			margin-bottom: 1rem;
+		}
+
+		.summary p,
+		.section p {
+			line-height: 1.6;
+		}
+
+		.stats {
+			display: flex;
+			gap: 1rem;
+			margin-top: 1.5rem;
+		}
+
+		.stat-box {
+			flex: 1;
+			text-align: center;
+			padding: 1rem;
+			border-radius: 10px;
+		}
+
+		.stat-box h4 {
+			font-size: 1.5rem;
+			margin-bottom: 0.3rem;
+		}
+
+		.stat-box span {
+			font-size: 0.9rem;
+			color: #555;
+		}
+
+		.stat-box.blue {
+			background: #e3f2fd;
+		}
+
+		.stat-box.green {
+			background: #e6f4ea;
+		}
+
+		.stat-box.purple {
+			background: #f3e8fd;
+		}
+
+		.info-box {
+			background-color: #e8f0fe;
+			color: #174ea6;
+			padding: 0.75rem 1rem;
+			border-radius: 8px;
+			margin-top: 1rem;
+			font-weight: 600;
+		}
+
+		.highlight-box {
+			background-color: #fff9db;
+			color: #8a6d00;
+			padding: 0.75rem 1rem;
+			border-radius: 8px;
+			margin-top: 1rem;
+			font-weight: 600;
+		}
+
+		.icon-title {
+			display: flex;
+			align-items: center;
+			font-weight: 700;
+			margin-bottom: 1rem;
+		}
+
+		.icon-title span {
+			margin-left: 0.5rem;
+			font-size: 1.2rem;
+		}
+
+		.icon {
+			font-size: 1.2rem;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="navbar">
+		<nav>
+			<ul>
+				<li><a href="#about">About</a></li>
+				<li><a href="#motivation">Motivation</a></li>
+				<li><a href="#goal">Goal</a></li>
+				<li><a href="#faqs">FAQs/Feedback</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<main class="container">
+		<section class="app-header">
+			<img src="https://cdn-icons-png.flaticon.com/512/7016/7016523.png" alt="App Icon" class="app-icon" />
+			<div class="app-details">
+				<span class="tag">Data Analysis</span>
+				<h1>CryptoInsight: Bitcoin Market Analyzer</h1>
+				<div class="rating">
+					<span class="stars">⭐️⭐️⭐️⭐️</span>
+					<span class="score">4.9</span>
+				</div>
+				<p class="category">Premium Analytics</p>
+			</div>
+		</section>
+
+		<section class="screenshots">
+			<h2>Screenshots</h2>
+			<div class="carousel-wrapper">
+				<button class="carousel-btn left-btn" aria-label="Scroll Left">‹</button>
+				<div class="carousel">
+					<img src="images/p1.png" alt="Screenshot 1">
+					<img src="images/p2.png" alt="Screenshot 2">
+					<img src="images/p3.png" alt="Screenshot 3">
+					<!-- Add more images here -->
+					<img src="images/p4.png" alt="Screenshot 4">
+					<img src="images/p4.png" alt="Screenshot 5">
+				</div>
+				<button class="carousel-btn right-btn" aria-label="Scroll Right">›</button>
+			</div>
+		</section>
+
+
+		<section class="summary">
+			<h3>₿ Project Summary</h3>
+			<p>
+				CryptoInsight provides real-time Bitcoin market analysis with advanced visualizations and AI predictions
+				to help investors make informed decisions in the volatile cryptocurrency market.
+			</p>
+			<div class="stats">
+				<div class="stat-box blue">
+					<h4>10+ Years</h4>
+					<span>Historical Data</span>
+				</div>
+				<div class="stat-box green">
+					<h4>85%</h4>
+					<span>Accuracy Rate</span>
+				</div>
+				<div class="stat-box purple">
+					<h4>20+</h4>
+					<span>Data Sources</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- About Section -->
+		<section class="section" id="about">
+			<div class="icon-title">
+				<span class="icon">ℹ️</span>
+				<span>About</span>
+			</div>
+			<p>
+				CryptoInsight analyzes over 50 technical indicators and market sentiment factors to provide a complete
+				view
+				of Bitcoin market trends, powered by advanced statistical models and intuitive visualizations.
+			</p>
+			<div class="info-box">
+				Comprehensive Bitcoin market analysis
+			</div>
+		</section>
+
+		<!-- Motivation Section -->
+		<section class="section" id="motivation">
+			<div class="icon-title">
+				<span class="icon">💡</span>
+				<span>Motivation</span>
+			</div>
+			<p>
+				We created CryptoInsight to help investors make sense of fragmented and complex cryptocurrency data.
+				Our goal is to democratize access to sophisticated analysis tools previously available only to
+				institutions.
+			</p>
+			<div class="highlight-box">
+				Simplifying complex crypto data
+			</div>
+		</section>
+
+		<!-- Goal Section -->
+		<section class="section" id="goal">
+			<div class="icon-title">
+				<span class="icon">💡</span>
+				<span>Goal</span>
+			</div>
+			<p>
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum dolore est quibusdam, maxime aliquid dolorum eius voluptates nemo cum accusamus numquam quae temporibus magnam pariatur consequatur consequuntur iste velit cupiditate.
+			</p>
+			<div class="highlight-box">
+				Simplifying complex crypto data
+			</div>
+		</section>
+
+
+		<section class="section" id="team" style="
+  text-size-adjust: 100%;
+  tab-size: 4;
+  font-family: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  color: hsl(var(--foreground));
+  box-sizing: border-box;
+  border-width: 0px;
+  border-style: solid;
+  border-color: hsl(var(--border));
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+  padding: 2rem;
+  background-color: hsl(var(--background));
+">
+			<div style="grid-column: span 3; display: flex; align-items: center; font-size: 1.25rem; font-weight: 600;">
+				<span style="margin-right: 0.5rem;">👥</span>
+				Team
+			</div>
+
+			<!-- Team Member 1 -->
+			<div
+				style="background-color: #fff; border-radius: 1rem; padding: 1rem; text-align: center; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+				<div
+					style="background-color: #f3f4f6; border-radius: 9999px; width: 40px; height: 40px; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center;">
+					<span style="font-size: 1.25rem;">👤</span>
+				</div>
+				<strong style="font-size: 1rem;">Person 1</strong>
+				<p style="color: hsl(var(--muted-foreground)); font-size: 0.75rem;">Data Science Lead</p>
+			</div>
+
+			<!-- Team Member 2 -->
+			<div
+				style="background-color: #fff; border-radius: 1rem; padding: 1rem; text-align: center; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+				<div
+					style="background-color: #f3f4f6; border-radius: 9999px; width: 40px; height: 40px; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center;">
+					<span style="font-size: 1.25rem;">👤</span>
+				</div>
+				<strong style="font-size: 1rem;">Person 2</strong>
+				<p style="color: hsl(var(--muted-foreground)); font-size: 0.75rem;">Financial Analyst</p>
+			</div>
+
+			<!-- Team Member 3 -->
+			<div
+				style="background-color: #fff; border-radius: 1rem; padding: 1rem; text-align: center; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+				<div
+					style="background-color: #f3f4f6; border-radius: 9999px; width: 40px; height: 40px; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center;">
+					<span style="font-size: 1.25rem;">👤</span>
+				</div>
+				<strong style="font-size: 1rem;">Person 3</strong>
+				<p style="color: hsl(var(--muted-foreground)); font-size: 0.75rem;">Blockchain Developer</p>
+			</div>
+		</section>
+
+
+		<!-- Artifacts Section -->
+		<section class="section" id="artifacts"
+			style="margin-top: 2rem; padding: 2rem; background-color: hsl(var(--background));">
+			<h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">📂 Artifacts & References</h2>
+			<div style="display: flex; flex-direction: column; gap: 1rem;">
+				<div
+					style="background-color: #fff; border-radius: 1rem; padding: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+					<div>
+						<strong>Research Paper</strong>
+						<p style="margin: 0.25rem 0; color: hsl(var(--muted-foreground)); font-size: 0.875rem;">A deep
+							dive into our predictive modeling approach for cryptocurrency markets</p>
+						<a href="#" style="color: #3b82f6; font-size: 0.875rem;">View Resource</a>
+					</div>
+					<span
+						style="background-color: #f3f4f6; border-radius: 9999px; padding: 0.25rem 0.75rem; font-size: 0.75rem;">PDF</span>
+				</div>
+				<div
+					style="background-color: #fff; border-radius: 1rem; padding: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+					<div>
+						<strong>Interactive Dashboard</strong>
+						<p style="margin: 0.25rem 0; color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Explore
+							the live demo of our Bitcoin market analysis dashboard</p>
+						<a href="#" style="color: #3b82f6; font-size: 0.875rem;">View Resource</a>
+					</div>
+					<span
+						style="background-color: #f3f4f6; border-radius: 9999px; padding: 0.25rem 0.75rem; font-size: 0.75rem;">Web
+						App</span>
+				</div>
+				<div
+					style="background-color: #fff; border-radius: 1rem; padding: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+					<div>
+						<strong>GitHub Repository</strong>
+						<p style="margin: 0.25rem 0; color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Access
+							our open-source data processing and visualization libraries</p>
+						<a href="#" style="color: #3b82f6; font-size: 0.875rem;">View Resource</a>
+					</div>
+					<span
+						style="background-color: #f3f4f6; border-radius: 9999px; padding: 0.25rem 0.75rem; font-size: 0.75rem;">GitHub</span>
+				</div>
+				<div
+					style="background-color: #fff; border-radius: 1rem; padding: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+					<div>
+						<strong>Data Dictionary</strong>
+						<p style="margin: 0.25rem 0; color: hsl(var(--muted-foreground)); font-size: 0.875rem;">
+							Comprehensive glossary of metrics and indicators used in our analysis</p>
+						<a href="#" style="color: #3b82f6; font-size: 0.875rem;">View Resource</a>
+					</div>
+					<span
+						style="background-color: #f3f4f6; border-radius: 9999px; padding: 0.25rem 0.75rem; font-size: 0.75rem;">Documentation</span>
+				</div>
+			</div>
+		</section>
+
+
+
+		<!-- FAQs/Feedback Section -->
+		<section class="section" id="faqs">
+			<div class="icon-title">
+				<span class="icon">💬</span>
+				<span>FAQs/Feedback</span>
+			</div>
+			<h3>Form to raise question <span style="color: gray;">&lt;Appstore&gt;</span></h3>
+			<p style="font-size: 0.9rem; color: #888;">(form upload)</p>
+
+			<form style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+				<input type="text" placeholder="Your name" name="name"
+					style="padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;" required>
+
+				<input type="email" placeholder="Your email" name="email"
+					style="padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;" required>
+
+				<textarea placeholder="Type your question here..." name="question" rows="5"
+					style="padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px;" required></textarea>
+
+				<div>
+					<label for="file" style="display: block; margin-bottom: 0.5rem;">Attachment (optional)</label>
+					<input type="file" id="file" name="file" style="border: none;">
+				</div>
+
+				<button type="submit"
+					style="background-color: #2f80ed; color: white; padding: 0.75rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+					Submit Question
+				</button>
+			</form>
+		</section>
+
+		<script>
+			const carousel = document.querySelector('.carousel');
+			const leftBtn = document.querySelector('.left-btn');
+			const rightBtn = document.querySelector('.right-btn');
+
+			const imageWidth = 150;
+			const gap = 10;
+			const scrollAmount = (imageWidth + gap) * 3; // Scroll by 3 images width
+
+			leftBtn.addEventListener('click', () => {
+				carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+			});
+
+			rightBtn.addEventListener('click', () => {
+				carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+			});
+		</script>
+
+
+	</main>
+</body>
+
+</html>
