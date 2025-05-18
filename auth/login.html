@@ -30,28 +30,26 @@
     }
 
     .left {
-  width: 40%;
-  background: #ffffff;
-  text-align: left;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-}
+      width: 40%;
+      background: #ffffff;
+      text-align: left;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      padding: 20px;
+    }
 
-.left .logo-text h1 {
-  font-size: 40px;
-  color: #003366;
-}
+    .left .logo-text h1 {
+      font-size: 40px;
+      color: #003366;
+    }
 
-.left .logo-text p {
-  font-size: 30px;
-  color: #555;
-}
-
-
+    .left .logo-text p {
+      font-size: 30px;
+      color: #555;
+    }
 
     .right {
       width: 70%;
@@ -62,16 +60,6 @@
       width: 200px;
       height: auto;
       margin-bottom: 10px;
-    }
-
-    .left h1 {
-      font-size: 32px;
-      color: #003366;
-    }
-
-    .left p {
-      font-size: 18px;
-      color: #555;
     }
 
     .login-form {
@@ -132,9 +120,30 @@
       border-radius: 6px;
     }
 
+    .center-dropdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 10px 0 20px 0;
+    }
+
+    .center-dropdown-container label {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .center-dropdown-container select {
+      width: 60%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
     .forgot {
       text-align: right;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .forgot a {
@@ -153,36 +162,18 @@
       cursor: pointer;
       margin-bottom: 10px;
     }
-
-    .google-btn {
-      width: 100%;
-      background-color: #ff6b6b;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .google-btn img {
-      width: 18px;
-    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="left">
-        <img src="img/LOGO.jpeg" alt="Vaco Logo" class="logo">
-        <div class="logo-text">
-          <h1>Vaco</h1>
-          <p>Binary Semantics</p>
-        </div>
+      <img src="img/LOGO.jpeg" alt="Vaco Logo" class="logo">
+      <div class="logo-text">
+        <h1>Vaco</h1>
+        <p>Binary Semantics</p>
       </div>
-      
+    </div>
+
     <div class="right">
       <form class="login-form">
         <div class="form-tabs">
@@ -195,7 +186,7 @@
           <h2>Login to your Account</h2>
           <label>Email</label>
           <input type="email" placeholder="abc123@gmail.com" required />
-          
+
           <label>Password</label>
           <input type="password" placeholder="************" required />
 
@@ -203,12 +194,18 @@
             <a href="#">Forget password ?</a>
           </div>
 
-          <button type="submit" class="login-btn">Log in</button>
+          <!-- Centered Role Dropdown -->
+          <div class="center-dropdown-container">
+            <label for="role">Select Role</label>
+            <select id="role" required>
+              <option value="">-- Select Role --</option>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+              <option value="developer">Developer</option>
+            </select>
+          </div>
 
-          <!-- <button type="button" class="google-btn">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" />
-            Log in with Google
-          </button> -->
+          <button type="submit" class="login-btn">Log in</button>
         </div>
 
         <!-- Signup Form -->
