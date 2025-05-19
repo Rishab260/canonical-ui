@@ -19,18 +19,36 @@ from .models import Team
 
 
 # User registration view
-def register(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_admin = False  # Ensure admin cannot self-register
-            user.save()
-            return redirect('core:login')
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'core/register.html', {'form': form})
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login as auth_login, authenticate
+from django.shortcuts import render, redirect
+from .forms import CustomUserCreationForm, CustomAuthenticationForm
 
+def login_and_register(request):
+    login_form = CustomAuthenticationForm(request, data=request.POST or None)
+    register_form = CustomUserCreationForm(request.POST or None)
+    active_tab = 'login'
+
+    if request.method == 'POST':
+        if 'login_submit' in request.POST:
+            active_tab = 'login'
+            if login_form.is_valid():
+                user = login_form.get_user()
+                auth_login(request, user)
+                return redirect('core:landing_page')
+        elif 'signup_submit' in request.POST:
+            active_tab = 'signup'
+            if register_form.is_valid():
+                user = register_form.save(commit=False)
+                user.is_admin = False
+                user.save()
+                return redirect('core:login')
+
+    return render(request, 'core/login.html', {
+        'form': login_form,
+        'register_form': register_form,
+        'active_tab': active_tab,
+    })
 
 # Landing page view displaying all approved apps
 def landing_page(request):

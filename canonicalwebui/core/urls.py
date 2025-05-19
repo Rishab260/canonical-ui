@@ -11,13 +11,9 @@ from .views import logout_view
 app_name = 'core'
 
 urlpatterns = [
-    path('register/', views.register, name='register'),
     path(
         'login/',
-        auth_views.LoginView.as_view(
-            template_name='core/login.html',
-            authentication_form=CustomAuthenticationForm,
-        ),
+        views.login_and_register,  # Use your combined view here
         name='login',
     ),
     path('', views.landing_page, name='landing_page'),
