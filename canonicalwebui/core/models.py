@@ -13,6 +13,7 @@ class User(AbstractUser):
     ROLE_CHOICES = (
         ('developer', 'Developer'),
         ('admin', 'Admin'),
+        ('user', 'User'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     is_approved = models.BooleanField(default=False)

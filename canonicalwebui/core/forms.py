@@ -20,12 +20,16 @@ class CustomUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Only allow 'Developer' option when users sign up
-        self.fields['role'].choices = [('developer', 'Developer')]
+        self.fields['role'].choices = [('developer', 'Developer'), ('user', 'User')]
 
     def save(self, commit=True):
         user = super().save(commit=False)
         if user.role == 'developer':
             user.is_approved = False  # require admin approval
+        if user.role == 'admin':
+            user.is_approved = False  # require admin approval 
+        if user.role == 'user':
+            user.is_approved = True # auto approve user
         if commit:
             user.save()
         return user

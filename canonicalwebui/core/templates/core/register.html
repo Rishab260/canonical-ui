@@ -29,6 +29,16 @@
                     </div>
 
                     <div class="input-field">
+                        <select name="role" id="id_role">
+                            <option value="" disabled selected>Choose your role</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                            <option value="developer">Developer</option>
+                        </select>
+                        <label for="id_role">Role</label>
+                    </div>
+
+                    <div class="input-field">
                         <input type="password" name="password1" id="id_password1" class="validate" value="{{ form.password1.value }}">
                         <label for="id_password1">Password</label>
                     </div>
@@ -42,7 +52,9 @@
                     <button type="submit" class="btn">Register</button>
                 </form>
 
-                <a href="{% url 'core:login' %}">Already have an account? Login</a>
+                <p class="center-align">
+                    <a href="{% url 'core:login' %}">Already have an account? Login</a>
+                </p>
             </div>
         </div>
     </div>
@@ -50,5 +62,12 @@
     <!-- jQuery and Materialize JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+    </script>
 </body>
 </html>
