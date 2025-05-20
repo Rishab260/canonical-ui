@@ -236,71 +236,79 @@
       <div class="logo-text">
       </div>
     </div>
+    
     <div class="right">
-      <form class="login-form" method="post" action="{% url 'core:login' %}">
-        {% csrf_token %}
-        <div class="form-tabs">
-          <button type="button" class="tab active" onclick="showForm('login')">Login</button>
-          <button type="button" class="tab" onclick="showForm('signup')">Signup</button>
-        </div>
-        <!-- Login Form -->
-        <div id="login-form-content">
-          <h2>Login to your Account</h2>
-          {% if form.non_field_errors %}
-            <div class="error">{{ form.non_field_errors }}</div>
-          {% endif %}
-          <label for="{{ form.username.id_for_label }}">Username or Email</label>
-          {{ form.username }}
-          {% if form.username.errors %}
-            <div class="error">{{ form.username.errors }}</div>
-          {% endif %}
-          <label for="{{ form.password.id_for_label }}">Password</label>
-          {{ form.password }}
-          {% if form.password.errors %}
-            <div class="error">{{ form.password.errors }}</div>
-          {% endif %}
-          <div class="forgot">
-            <a href="{% url 'password_reset' %}">Forget password?</a>
-          </div>
-          <button type="submit" class="login-btn">Log in</button>
-        </div>
-        <!-- Signup Form -->
-<div id="signup-form-content" style="display: none;">
-  <h2>Create a New Account</h2>
-  {% if register_form.non_field_errors %}
-    <div class="error">{{ register_form.non_field_errors }}</div>
-  {% endif %}
-  {% for field in register_form %}
-    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-    {{ field }}
-    {% if field.errors %}
-      <div class="error">{{ field.errors }}</div>
-    {% endif %}
-  {% endfor %}
-  <button type="submit" class="login-btn" name="login_submit">Log in</button>
-</div>
-      </form>
+  <!-- Login Form -->
+  <form class="login-form" method="post" action="{% url 'core:login' %}" id="login-form" style="display: block;">
+    {% csrf_token %}
+    <div class="form-tabs">
+      <button type="button" class="tab active" onclick="showForm('login')">Login</button>
+      <button type="button" class="tab" onclick="showForm('signup')">Signup</button>
     </div>
+    <div id="login-form-content">
+      <h2>Login to your Account</h2>
+      {% if form.non_field_errors %}
+        <div class="error">{{ form.non_field_errors }}</div>
+      {% endif %}
+      <label for="{{ form.username.id_for_label }}">Username or Email</label>
+      {{ form.username }}
+      {% if form.username.errors %}
+        <div class="error">{{ form.username.errors }}</div>
+      {% endif %}
+      <label for="{{ form.password.id_for_label }}">Password</label>
+      {{ form.password }}
+      {% if form.password.errors %}
+        <div class="error">{{ form.password.errors }}</div>
+      {% endif %}
+      <div class="forgot">
+        <a href="{% url 'password_reset' %}">Forget password?</a>
+      </div>
+      <button type="submit" class="login-btn" name="login_submit">Log in</button>
+    </div>
+  </form>
+
+  <!-- Signup Form -->
+  <form class="login-form" method="post" action="{% url 'core:login' %}" id="signup-form" style="display: none;">
+    {% csrf_token %}
+    <div class="form-tabs">
+      <button type="button" class="tab" onclick="showForm('login')">Login</button>
+      <button type="button" class="tab active" onclick="showForm('signup')">Signup</button>
+    </div>
+    <div id="signup-form-content">
+      <h2>Create a New Account</h2>
+      {% if register_form.non_field_errors %}
+        <div class="error">{{ register_form.non_field_errors }}</div>
+      {% endif %}
+      {% for field in register_form %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <div class="error">{{ field.errors }}</div>
+        {% endif %}
+      {% endfor %}
+      <button type="submit" class="login-btn" name="signup_submit">Sign up</button>
+    </div>
+  </form>
+</div>
+
   </div>
   <script>
     function showForm(type) {
-      const loginForm = document.getElementById('login-form-content');
-      const signupForm = document.getElementById('signup-form-content');
-      const tabs = document.querySelectorAll('.tab');
-      if (type === 'login') {
-        loginForm.style.display = 'block';
-        signupForm.style.display = 'none';
-      } else {
-        loginForm.style.display = 'none';
-        signupForm.style.display = 'block';
-      }
-      tabs.forEach(tab => tab.classList.remove('active'));
-      if (type === 'login') {
-        tabs[0].classList.add('active');
-      } else {
-        tabs[1].classList.add('active');
-      }
-    }
+  const loginForm = document.getElementById('login-form');
+  const signupForm = document.getElementById('signup-form');
+  const tabs = document.querySelectorAll('.tab');
+  if (type === 'login') {
+    loginForm.style.display = 'block';
+    signupForm.style.display = 'none';
+    tabs[0].classList.add('active');
+    tabs[1].classList.remove('active');
+  } else {
+    loginForm.style.display = 'none';
+    signupForm.style.display = 'block';
+    tabs[0].classList.remove('active');
+    tabs[1].classList.add('active');
+  }
+}
   </script>
 </body>
 </html>

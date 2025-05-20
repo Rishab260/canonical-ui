@@ -24,6 +24,7 @@ from django.contrib.auth import login as auth_login, authenticate
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 
+# ...existing code...
 def login_and_register(request):
     login_form = CustomAuthenticationForm(request, data=request.POST or None)
     register_form = CustomUserCreationForm(request.POST or None)
@@ -35,6 +36,9 @@ def login_and_register(request):
             if login_form.is_valid():
                 user = login_form.get_user()
                 auth_login(request, user)
+                # Redirect superusers to admin, others to landing page
+                if user.is_superuser:
+                    return redirect('/admin/')
                 return redirect('core:landing_page')
         elif 'signup_submit' in request.POST:
             active_tab = 'signup'
@@ -44,6 +48,12 @@ def login_and_register(request):
                 user.save()
                 return redirect('core:login')
 
+    return render(request, 'core/login.html', {
+        'form': login_form,
+        'register_form': register_form,
+        'active_tab': active_tab,
+    })
+# ...existing code...
     return render(request, 'core/login.html', {
         'form': login_form,
         'register_form': register_form,
