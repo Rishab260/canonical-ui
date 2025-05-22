@@ -309,6 +309,15 @@
     tabs[1].classList.add('active');
   }
 }
+document.addEventListener("DOMContentLoaded", function() {
+    // Use Django context variable to switch tab after registration
+    var activeTab = "{{ active_tab }}";
+    if (activeTab === "signup") {
+      showForm('signup');
+    } else {
+      showForm('login');
+    }
+  });
   </script>
 </body>
 </html>

@@ -28,7 +28,7 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm
 def login_and_register(request):
     login_form = CustomAuthenticationForm(request, data=request.POST or None)
     register_form = CustomUserCreationForm(request.POST or None)
-    active_tab = 'login'
+    active_tab = 'active_tab'
 
     if request.method == 'POST':
         if 'login_submit' in request.POST:
@@ -46,7 +46,10 @@ def login_and_register(request):
                 user = register_form.save(commit=False)
                 user.is_admin = False
                 user.save()
-                return redirect('core:login')
+                register_form = CustomUserCreationForm()  # Reset the form
+                active_tab = 'signup'  # Optionally switch to login tab after signup
+                messages.success(request, "Registration successful! Please log in.")
+                # Do NOT redirect, just fall through to render the same page
 
     return render(request, 'core/login.html', {
         'form': login_form,
