@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f8f9fb;
+    color: #333;
+  }
+  
+  .app-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .app-icon {
+    width: 64px;
+    height: 64px;
+    margin-right: 20px;
+    border-radius: 12px;
+  }
+  
+  .app-info h1 {
+    margin: 0;
+    font-size: 20px;
+  }
+  
+  .tag, .label, .rating {
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+  }
+  
+  .screenshots {
+    padding: 30px;
+    background: #fff;
+  }
+  
+  .carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 0;
+  }
+  
+  .carousel img {
+    width: 200px;
+    border-radius: 10px;
+  }
+  
+  .info {
+    padding: 30px;
+  }
+  
+  .block {
+    margin-bottom: 30px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .badge {
+    display: inline-block;
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .badge.blue { background-color: #e1efff; color: #0077cc; }
+  .badge.yellow { background-color: #fff4cc; color: #aa8800; }
+  .badge.green { background-color: #ccf5e7; color: #009966; }
+  
+  .faq {
+    padding: 30px;
+    background: white;
+  }
+  
+  .faq form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .faq input, .faq textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .faq button {
+    padding: 10px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .more-projects {
+    padding: 30px;
+    background: #fff;
+  }
+  
+  .projects-grid {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .projects-grid img {
+    width: 150px;
+    border-radius: 10px;
+  }

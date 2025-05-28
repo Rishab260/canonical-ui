@@ -6,7 +6,7 @@ Canonical Escalators
 
 
 * Back-End: Django
-* Front-End: HTML,CSS, Javascript, AJAX
+* Front-End: React
 * Database: PostgreSQL
 
 
