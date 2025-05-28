@@ -31,6 +31,9 @@ def register(request):
         form = CustomUserCreationForm()
     return render(request, 'core/register.html', {'form': form})
 
+def landing_page(request):
+    return render(request, 'core/landing_page.html')
+
 
 # Landing page view displaying all approved apps
 def landing_page(request):

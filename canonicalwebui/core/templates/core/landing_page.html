@@ -1,199 +1,315 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CanonicalWebUI - App Store</title>
-    <!-- Materialize CSS for Material Design -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-    <style>
-        .app-card {
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .app-card:hover {
-            transform: scale(1.05);
-        }
-
-        .app-card img {
-            width: 100%;
-            height: auto;
-        }
-
-        .card-content {
-            padding: 15px;
-        }
-
-        .card-title {
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .app-description {
-            font-size: 14px;
-            color: #666;
-            height: 60px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .app-btn {
-            display: block;
-            margin-top: 15px;
-            background-color: #0D47A1;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            border-radius: 4px;
-            text-decoration: none;
-        }
-
-        .app-btn:hover {
-            background-color: #1565C0;
-        }
-
-        .app-grid {
-            margin-top: 20px;
-        }
-
-        .app-card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-        }
-
-        .app-card-wrapper {
-            width: 22%;
-            margin-bottom: 20px;
-        }
-
-        /* Mobile responsiveness */
-        @media screen and (max-width: 768px) {
-            .app-card-wrapper {
-                width: 45%;
-            }
-        }
-
-        @media screen and (max-width: 480px) {
-            .app-card-wrapper {
-                width: 100%;
-            }
-        }
-
-        .filter-container {
-            margin-top: 20px;
-        }
-    </style>
+    <title>IndustrialHub - Project Showcase</title>
+    <link rel="stylesheet" href="{% static 'canonical-ui/styles.css' %}">
 </head>
-<body>
-    <!-- Header Section -->
-    <nav>
-        <div class="nav-wrapper blue">
-            <a href="#" class="brand-logo center">CanonicalWebUI</a>
-            <ul class="left hide-on-med-and-down">
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'core:logout' %}">Logout</a></li>
-                {% else %}
-                    <li><a href="{% url 'core:login' %}">Login</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
 
-    <!-- User Greeting -->
-    <div class="container">
-        {% if user.is_authenticated %}
-            <h3 class="center-align">Welcome, {{ user.username }}!</h3>
-        {% else %}
-            <h3 class="center-align">Welcome to the CanonicalWebUI App Store</h3>
-        {% endif %}
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                    <img src="{% static 'canonical-ui/download1.png' %}" alt="Vaco Binary Logo" class="logo-img">
+            </div>
+            
+
+            <ul class="nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">Categories</a></li>
+               <!-- <li><a href="#">Industries</a></li> -->
+                <li><a href="#">About Us</a></li>
+            </ul>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Search projects...">
+            </div>
+
+            <div class="user-actions">
+                <!-- <button class="btn btn-outline">Log Out</button> -->
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <h1>Discover Industrial Excellence</h1>
+        <p>Explore our comprehensive collection of industrial projects, innovations, and solutions across various
+            sectors. Find the perfect solution for your business needs.</p>
+    </section>
+
+    <div class="section-title">
+        <h2>Top Rated Projects</h2>
+        <a href="#">See All</a>
     </div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Search and Filters -->
-        <div class="filter-container">
-            <form method="GET" class="row" id="filter-form">
-                <!-- Search Field -->
-                <div class="input-field col s12 m6 l4">
-                    <input id="search" type="text" name="search" value="{{ search_query }}">
-                    <label for="search">Search Apps</label>
+    <div class="projects-grid">
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project type</span>
+                <h3 class="project-title">Project Name</h3>
+                <p class="project-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, eius dolore. Quos aut aliquam ducimus rerum sapiente! Vel nesciunt deleniti similique voluptatum quasi quibusdam corporis, unde nostrum, earum ducimus dolorem.</p>
+                <div class="project-meta">
+                    <span>By Owner</span>
+                    <div class="project-rating">
+                        <span>4.9</span>
+                        <span>★★★★★</span>
+                    </div>
                 </div>
-
-                <!-- Category Filter -->
-                <div class="input-field col s12 m4 l3">
-                    <select name="category">
-                        <option value="" {% if not selected_category %}selected{% endif %}>All Categories</option>
-                        {% for category in categories %}
-                            <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <label>Filter by Category</label>
-                </div>
-
-                <!-- Team Filter -->
-                <div class="input-field col s12 m4 l3">
-                    <select name="team">
-                        <option value="" {% if not selected_team %}selected{% endif %}>All Teams</option>
-                        {% for team in teams %}
-                            <option value="{{ team.id }}" {% if selected_team == team.id|stringformat:"s" %}selected{% endif %}>{{ team.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <label>Filter by Team</label>
-                </div>
-            </form>
+            </div>
         </div>
 
-        <!-- App Grid -->
-        <div class="app-grid">
-            <div class="app-card-container">
-                {% for app in apps %}
-                    <div class="app-card-wrapper">
-                        <div class="card app-card">
-                            <div class="card-image">
-                                <img src="{{ app.screenshots.first.image.url }}" alt="{{ app.name }}">
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title">{{ app.name }}</span>
-                                <p class="app-description">{{ app.description }}</p>
-                                <a href="{{ app.get_absolute_url }}" class="app-btn">Visit App</a>
-                            </div>
-                        </div>
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project Type</span>
+                <h3 class="project-title">Project name</h3>
+                <p class="project-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, dolorem aliquid dolore vitae eaque facere nobis beatae itaque totam! Necessitatibus, delectus. Architecto praesentium cum, cumque molestias perferendis magnam quod tenetur.</p>
+                <div class="project-meta">
+                    <span>By Owner</span>
+                    <div class="project-rating">
+                        <span>4.9</span>
+                        <span>★★★★★</span>
                     </div>
-                {% empty %}
-                    <p class="center-align">No approved apps yet.</p>
-                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project type</span>
+                <h3 class="project-title">Project Name</h3>
+                <p class="project-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt inventore provident nihil dolore cum a, esse soluta qui vitae sapiente eligendi, itaque perspiciatis, incidunt odio fuga consectetur adipisci eius explicabo.</p>
+                <div class="project-meta">
+                    <span>By Owner</span>
+                    <div class="project-rating">
+                        <span>4.8</span>
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project Type</span>
+                <h3 class="project-title">Project Name</h3>
+                <p class="project-description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos dicta veritatis sit deleniti veniam voluptatem illum dolor perferendis voluptatum temporibus, recusandae iste deserunt culpa reiciendis totam labore praesentium asperiores sint.</p>
+                <div class="project-meta">
+                    <span>By Owner</span>
+                    <div class="project-rating">
+                        <span>4.8</span>
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section-title">
+        <h2>Featured Projects</h2>
+        <a href="#">See All</a>
+    </div>
+
+    <div class="projects-grid">
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project Type</span>
+                <h3 class="project-title">Project Name</h3>
+                <p class="project-description">Description of the Project. Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde non quidem dolorem quis aspernatur natus sapiente accusantium, placeat commodi dolorum impedit esse fuga ipsum officiis provident minus, officia, veniam laudantium!</p>
+                <div class="project-meta">
+                    <span>By Owner</span>
+                    <div class="project-rating">
+                        <span>4.8</span>
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project type</span>
+                <h3 class="project-title">Project Name</h3>
+                <p class="project-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex saepe autem non blanditiis veritatis ullam debitis dolor rerum quod mollitia excepturi laboriosam et commodi quas qui dolorem, illo modi tempora.</p>
+                <div class="project-meta">
+                    <span>By Owner</span>
+                    <div class="project-rating">
+                        <span>4.7</span>
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project Type</span>
+                <h3 class="project-title">Project Name</h3>
+                <p class="project-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint autem, illo voluptatum architecto consectetur dolorum aspernatur dignissimos facilis explicabo sunt modi pariatur eaque dicta illum hic officiis, nam minima beatae.</p>
+                <div class="project-meta">
+                    <span>By Owner</span>
+                    <div class="project-rating">
+                        <span>4.9</span>
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project Type</span>
+                <h3 class="project-title">Project Name</h3>
+                <p class="project-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusantium fuga, tempora, quas deleniti dolorem nihil voluptate laudantium tempore recusandae debitis omnis, accusamus ducimus veniam eos earum ipsam. Tempore, reiciendis veritatis.</p>
+                <div class="project-meta">
+                    <span>By Owner.</span>
+                    <div class="project-rating">
+                        <span>4.6</span>
+                        <span>★★★★★</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer Section -->
-    <footer class="page-footer blue">
-        <div class="container">
-            <p class="white-text center-align">© 2025 CanonicalWebUI App Store</p>
+    <div class="section-title">
+        <h2>New Releases</h2>
+        <a href="#">See All</a>
+    </div>
+
+    <div class="projects-grid">
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project Type</span>
+                <h3 class="project-title">Project Name</h3>
+                <p class="project-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo qui quam accusantium eos nam quaerat, culpa, iusto dolores deleniti inventore dolore blanditiis eligendi provident aliquid asperiores aut dolor quasi veniam?</p>
+                <div class="project-meta">
+                    <span>By owner</span>
+                    <div class="project-rating">
+                        <span>4.7</span>
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project Type</span>
+                <h3 class="project-title">Project Name</h3>
+                <p class="project-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nesciunt maiores omnis quas perspiciatis pariatur doloribus maxime ab! Sint pariatur numquam ipsa quo, iure id officia mollitia? Nam quo ipsum magni?</p>
+                <div class="project-meta">
+                    <span>By Owner</span>
+                    <div class="project-rating">
+                        <span>4.5</span>
+                        <span>★★★★☆</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project Type</span>
+                <h3 class="project-title">Project Name</h3>
+                <p class="project-description">Project Description. Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, consequuntur dicta officiis a harum assumenda odio numquam fuga repellat illum nam nesciunt velit expedita! Accusamus facere sit nobis natus at.</p>
+                <div class="project-meta">
+                    <span>By Owner</span>
+                    <div class="project-rating">
+                        <span>4.6</span>
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-image"></div>
+            <div class="project-info">
+                <span class="project-category">Project Type</span>
+                <h3 class="project-title">Project Name</h3>
+                <p class="project-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla officia quibusdam quisquam cumque velit repudiandae at nesciunt perspiciatis quam aliquam tenetur, earum deleniti ipsam blanditiis! Dignissimos voluptatibus alias tempora nulla?.</p>
+                <div class="project-meta">
+                    <span>By Owner</span>
+                    <div class="project-rating">
+                        <span>4.7</span>
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Vaco Binary</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Team</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Products</h3>
+                <ul>
+                    <li><a href="#">Top Rated</a></li>
+                    <li><a href="#">Featured Projects</a></li>
+                    <li><a href="#">New Releases</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2025 Vaco Binary . All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- jQuery and Materialize JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-        // Initialize Materialize components
-        $(document).ready(function(){
-            $('select').formSelect();
+        // Simple tab functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('.tab');
 
-            // Trigger form submission on pressing Enter in the search field
-            $('#search').on('keypress', function(e) {
-                if (e.which === 13) {  // Enter key
-                    $('#filter-form').submit();
-                }
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+
+                    // Here you would typically filter projects based on the selected tab
+                    // For a static demo, we're just toggling the active state
+                });
             });
         });
     </script>

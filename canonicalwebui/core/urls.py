@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 from .forms import CustomAuthenticationForm
@@ -11,6 +11,7 @@ from .views import logout_view
 app_name = 'core'
 
 urlpatterns = [
+    path('', views.landing_page, name='landing_page'),
     path('register/', views.register, name='register'),
     path(
         'login/',
@@ -20,7 +21,6 @@ urlpatterns = [
         ),
         name='login',
     ),
-    path('', views.landing_page, name='landing_page'),
     path('logout/', logout_view, name='logout'),
     path('submit-app/', views.submit_app, name='submit_app'),
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
