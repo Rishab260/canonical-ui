@@ -34,8 +34,13 @@ class Team(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+
     def __str__(self):
         return self.name
+
 
 
 # Use the custom user model for foreign keys below
@@ -65,6 +70,13 @@ class App(models.Model):
 
     def get_absolute_url(self):
         return f"/app/{self.id}/"
+    
+    def average_rating(self):
+        ratings = self.ratings.all()
+        if ratings.exists():
+            return round(sum(r.rating for r in ratings) / ratings.count(), 2)
+        return None
+
 
 
 class Artifact(models.Model):
@@ -101,19 +113,19 @@ class Screenshot(models.Model):
 
 
 class Rating(models.Model):
-    app = models.ForeignKey(
-        App, on_delete=models.CASCADE, related_name='ratings',
-    )
+    app = models.ForeignKey(App, on_delete=models.CASCADE, related_name='ratings')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    rating = models.PositiveIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-    )
+    rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    review = models.TextField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('app', 'user')
 
     def __str__(self):
         return f"{self.user} rated {self.app.name} - {self.rating}"
+
 
 
 class Feedback(models.Model):

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IndustrialHub - Project Showcase</title>
+    <title>Vaco App Store</title>
     <link rel="stylesheet" href="{% static 'canonical-ui/styles.css' %}">
 </head>
 
@@ -13,33 +13,51 @@
     <header>
         <nav class="navbar">
             <div class="logo">
-                    <img src="{% static 'canonical-ui/download1.png' %}" alt="Vaco Binary Logo" class="logo-img">
+                <img src="{% static 'canonical-ui/download1.png' %}" alt="Vaco Binary Logo" class="logo-img">
             </div>
-            
 
             <ul class="nav-links">
                 <li><a href="#" class="active">Home</a></li>
                 <li><a href="#">Categories</a></li>
-               <!-- <li><a href="#">Industries</a></li> -->
                 <li><a href="#">About Us</a></li>
             </ul>
 
             <div class="search-bar">
-                <input type="text" placeholder="Search projects...">
-            </div>
-
-            <div class="user-actions">
-                <!-- <button class="btn btn-outline">Log Out</button> -->
+                <form method="get" id="search-form">
+                    <input type="text" name="search" placeholder="Search projects..." value="{{ search_query }}">
+                </form>
             </div>
         </nav>
     </header>
 
     <section class="hero-section">
         <h1>Discover Industrial Excellence</h1>
-        <p>Explore our comprehensive collection of industrial projects, innovations, and solutions across various
-            sectors. Find the perfect solution for your business needs.</p>
+        <p>Explore a comprehensive collection of industrial projects, innovations, and solutions.</p>
     </section>
 
+    <!-- Filter Section -->
+    <div class="filter-bar">
+        <form method="get" class="filter-form">
+            <select name="category">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if selected_category|add:'' == category.id|stringformat:'s' %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <select name="team">
+                <option value="">All Teams</option>
+                {% for team in teams %}
+                    <option value="{{ team.id }}" {% if selected_team|add:'' == team.id|stringformat:'s' %}selected{% endif %}>
+                        {{ team.name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Apply Filters</button>
+        </form>
     <div class="section-title">
         <h2>Top Rated Projects</h2>
         <a href="#">See All</a>
@@ -191,74 +209,34 @@
     </div>
 
     <div class="section-title">
-        <h2>New Releases</h2>
-        <a href="#">See All</a>
+        <h2>Available Projects</h2>
     </div>
 
+    <!-- Apps Grid -->
     <div class="projects-grid">
+        {% for app in apps %}
         <div class="project-card">
-            <div class="project-image"></div>
-            <div class="project-info">
-                <span class="project-category">Project Type</span>
-                <h3 class="project-title">Project Name</h3>
-                <p class="project-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo qui quam accusantium eos nam quaerat, culpa, iusto dolores deleniti inventore dolore blanditiis eligendi provident aliquid asperiores aut dolor quasi veniam?</p>
-                <div class="project-meta">
-                    <span>By owner</span>
-                    <div class="project-rating">
-                        <span>4.7</span>
-                        <span>★★★★★</span>
-                    </div>
-                </div>
+            <div class="project-image">
+                {% if app.screenshot_set.first %}
+                    <img src="{{ app.screenshot_set.first.image.url }}" alt="{{ app.name }}">
+                {% else %}
+                    <img src="{% static 'canonical-ui/default-image.png' %}" alt="Default Image">
+                {% endif %}
             </div>
-        </div>
 
-        <div class="project-card">
-            <div class="project-image"></div>
             <div class="project-info">
-                <span class="project-category">Project Type</span>
-                <h3 class="project-title">Project Name</h3>
-                <p class="project-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nesciunt maiores omnis quas perspiciatis pariatur doloribus maxime ab! Sint pariatur numquam ipsa quo, iure id officia mollitia? Nam quo ipsum magni?</p>
+                <span class="project-category">{{ app.category.name }}</span>
+                <h3 class="project-title">{{ app.name }}</h3>
+                <p class="project-description">{{ app.description|truncatewords:25 }}</p>
                 <div class="project-meta">
-                    <span>By Owner</span>
-                    <div class="project-rating">
-                        <span>4.5</span>
-                        <span>★★★★☆</span>
-                    </div>
+                    <span>By {{ app.owner.username }}</span>
+                    <a href="{% url 'core:view_app' app.id %}" class="view-button">View Details</a>
                 </div>
             </div>
         </div>
-
-        <div class="project-card">
-            <div class="project-image"></div>
-            <div class="project-info">
-                <span class="project-category">Project Type</span>
-                <h3 class="project-title">Project Name</h3>
-                <p class="project-description">Project Description. Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, consequuntur dicta officiis a harum assumenda odio numquam fuga repellat illum nam nesciunt velit expedita! Accusamus facere sit nobis natus at.</p>
-                <div class="project-meta">
-                    <span>By Owner</span>
-                    <div class="project-rating">
-                        <span>4.6</span>
-                        <span>★★★★★</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="project-card">
-            <div class="project-image"></div>
-            <div class="project-info">
-                <span class="project-category">Project Type</span>
-                <h3 class="project-title">Project Name</h3>
-                <p class="project-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla officia quibusdam quisquam cumque velit repudiandae at nesciunt perspiciatis quam aliquam tenetur, earum deleniti ipsam blanditiis! Dignissimos voluptatibus alias tempora nulla?.</p>
-                <div class="project-meta">
-                    <span>By Owner</span>
-                    <div class="project-rating">
-                        <span>4.7</span>
-                        <span>★★★★★</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% empty %}
+        <p>No projects found matching your criteria.</p>
+        {% endfor %}
     </div>
 
     <footer>
@@ -299,28 +277,21 @@
         </div>
 
         <div class="copyright">
-            <p>&copy; 2025 Vaco Binary . All rights reserved.</p>
+            <p>&copy; 2025 Vaco Binary. All rights reserved.</p>
         </div>
     </footer>
 
+    <!-- Auto-submit search on input -->
     <script>
-        // Simple tab functionality
-        document.addEventListener('DOMContentLoaded', function () {
-            const tabs = document.querySelectorAll('.tab');
-
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function () {
-                    // Remove active class from all tabs
-                    tabs.forEach(t => t.classList.remove('active'));
-
-                    // Add active class to clicked tab
-                    this.classList.add('active');
-
-                    // Here you would typically filter projects based on the selected tab
-                    // For a static demo, we're just toggling the active state
-                });
-            });
+        const searchInput = document.querySelector('#search-form input[name="search"]');
+        let timeout = null;
+        searchInput.addEventListener('input', function () {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                document.getElementById('search-form').submit();
+            }, 400);
         });
     </script>
+
 </body>
 </html>
