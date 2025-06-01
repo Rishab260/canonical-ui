@@ -67,25 +67,25 @@
     <!-- Apps Grid -->
     <div class="projects-grid">
         {% for app in apps %}
-        <div class="project-card">
-            <div class="project-image">
-                {% if app.screenshot_set.first %}
-                    <img src="{{ app.screenshot_set.first.image.url }}" alt="{{ app.name }}">
-                {% else %}
-                    <img src="{% static 'canonical-ui/default-image.png' %}" alt="Default Image">
-                {% endif %}
-            </div>
-
-            <div class="project-info">
-                <span class="project-category">{{ app.category.name }}</span>
-                <h3 class="project-title">{{ app.name }}</h3>
-                <p class="project-description">{{ app.description|truncatewords:25 }}</p>
-                <div class="project-meta">
-                    <span>By {{ app.owner.username }}</span>
-                    <a href="{% url 'core:view_app' app.id %}" class="view-button">View Details</a>
-                </div>
+        <a href="{% url 'core:app_details' app_id=app.id %}" class="project-card-link">
+    <div class="project-card">
+        <div class="project-image">
+            {% if app.screenshot_set.first %}
+                <img src="{{ app.screenshot_set.first.image.url }}" alt="{{ app.name }}">
+            {% else %}
+                <img src="{% static 'canonical-ui/default-image.png' %}" alt="Default Image">
+            {% endif %}
+        </div>
+        <div class="project-info">
+            <span class="project-category">{{ app.category.name }}</span>
+            <h3 class="project-title">{{ app.name }}</h3>
+            <p class="project-description">{{ app.description|truncatewords:25 }}</p>
+            <div class="project-meta">
+                <span>By {{ app.owner.username }}</span>
             </div>
         </div>
+        </div>
+    </a>
         {% empty %}
         <p>No projects found matching your criteria.</p>
         {% endfor %}
