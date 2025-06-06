@@ -12,6 +12,7 @@ app_name = 'core'
 
 urlpatterns = [
     path('', views.landing_page, name='landing_page'),
+    path('app-details/<int:app_id>/', views.app_details, name='app_details'),
     path('register/', views.register, name='register'),
     path('app/<int:app_id>/', views.app_details, name='app_details'),
     path(

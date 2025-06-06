@@ -1,0 +1,855 @@
+/* --- Global Styles --- */
+:root {
+  --primary-color: #4a7dff; /* Adjusted to a
+blue similar to buttons */
+  --primary-text-color: #2e3a59; /* Dark blue/gray for
+text */
+  --secondary-text-color: #6b7280; /* Lighter gray for secondary text */
+  --background-color: #f8f9fa; /* Light gray page background */
+  --card-background-color: #ffffff;
+  --border-color: #e5e7eb;
+  --star-color: #ffc107; /* Gold for stars */
+  --pill-blue-bg: #ebf2ff; /* Light blue for pills
+*/
+  --pill-blue-text: #4a7dff;
+  --pill-yellow-bg: #fff9e6; /* Light yellow */
+  --pill-yellow-text: #d97706; /* Darker yellow/orange */
+  --pill-green-bg: #e6ffee; /* Light green */
+  --pill-green-text: #059669; /* Darker green */
+  --font-family: "Inter", sans-serif;
+}
+
+.project-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
+  line-height: 1.6;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  width: 50px;
+  height: 32px;
+  background-color: var(--primary-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--secondary-color);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary-color);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  padding: 0.25rem;
+  outline: none;
+}
+.user-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.logo-img {
+  height: 70px;
+  width: auto;
+  display: block;
+}
+
+
+.logout-btn {
+  background-color: #0a66c2;
+  color: #fff;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #004182;
+}
+.container {
+  width: 90%;
+  max-width: 1000px; /* Adjust as needed based on content width in screenshots */
+  margin: 0 auto;
+  padding: 20px 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--primary-text-color);
+  margin-bottom: 0.75em;
+  font-weight: 600;
+}
+h1 {
+  font-size: 2.5rem;
+}
+h2 {
+  font-size: 1.75rem;
+} /* Section titles */
+h3 {
+  font-size: 1.25rem;
+}
+p {
+  margin-bottom: 1em;
+  color: var(--secondary-text-color);
+}
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+.section-card {
+  background-color: var(--card-background-color);
+  padding: 25px 30px; /* Increased padding */
+  border-radius: 12px; /* More rounded corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07); /* Softer shadow */
+  margin-bottom: 30px;
+}
+.section-title-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.about-text {
+  overflow: hidden; /* Hides overflowing text */
+  white-space: nowrap; /* Prevents wrapping for inline ellipsis */
+  text-overflow: ellipsis; /* Adds ellipsis for truncated text */
+  max-height: 1.5em; /* Show only a single line (adjust for desired line count) */
+}
+
+.about-text.expanded {
+  overflow: visible; /* Show all text */
+  white-space: normal; /* Allow wrapping */
+  text-overflow: unset; /* Remove ellipsis */
+  max-height: none; /* Allow full height */
+}
+
+.read-more-btn {
+  bottom: 10px; /* 10px from the bottom */
+  right: 10px; /* 10px from the right */
+  background: none; /* no background */
+  border: none; /* no border */
+  color: #2563eb; /* text color */
+  padding: 0; /* no padding */
+  cursor: pointer;
+  font-weight: 600; /* optional: make text a bit bold */
+  text-decoration: underline; /* typical for text buttons */
+  font-size: 1rem;
+}
+
+.read-more-btn:hover {
+  color: #1d4ed8; /* darker blue on hover */
+  text-decoration: none; /* remove underline on hover, optional */
+}
+
+.section-title-container i {
+  /* For Font Awesome icons */
+  font-size: 1.5rem; /*
+Icon size */
+  color: var(--primary-text-color); /* Or specific icon color */
+}
+.section-title-container svg {
+  /* For inline SVGs */
+  width: 24px;
+  height: 24px;
+  fill: var(--primary-text-color);
+}
+.section-title-container h2 {
+  margin-bottom: 0; /* Remove default margin as it's handled by container */
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+.pill {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 20px; /* Fully rounded pill shape */
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+} /* --- Header / Navigation --- */
+#main-header {
+  background-color: var(--card-background-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 5px 0; /* Reduced padding */
+}
+#main-header .container {
+  display: flex;
+  justify-content: center; /* Center nav items */
+  align-items: center;
+  padding: 10px 0; /* Further refined padding for the container inside header */
+}
+#main-header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px; /* Spacing
+between nav items */
+}
+#main-header nav ul li a {
+  text-decoration: none;
+  color: var(--secondary-text-color);
+  font-weight: 500;
+  padding: 10px 5px; /* Padding for
+click area */
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 2px solid transparent; /* For active/hover effect */
+}
+#main-header nav ul li a:hover,
+#main-header nav ul li a.active {
+  /* JS will add
+'active' class on scroll */
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+} /* Specific section to make sure there's enough
+space for header */
+main > section:first-child {
+  padding-top: 40px; /* Adjust if
+header height changes */
+} /* --- Hero Section --- */
+#hero-section {
+  padding-top: 40px; /* Add some space from the header */
+  padding-bottom: 30px;
+}
+.hero-content {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+.app-icon {
+  width: 100px; /* Adjust size as per screenshot */
+  height: 100px;
+  border-radius: 22%; /* For squircle shape */
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color); /* Subtle border */
+}
+.hero-text h1 {
+  font-size: 2.2rem; /* Adjust size */
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--primary-text-color);
+}
+.category-tag {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+}
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+.rating i {
+  /* Font Awesome stars */
+  color: var(--star-color);
+}
+.rating span {
+  color: var(--secondary-text-color);
+  font-weight: 500;
+  margin-left: 4px;
+}
+.premium-tag {
+  display: inline-block;
+  background-color: var(--pill-blue-bg);
+  color: var(--pill-blue-text);
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+} /* ---
+Screenshots Slider --- */
+#screenshots-section {
+  padding-bottom: 30px;
+}
+.section-title-container.no-icon-title h2 {
+  /* Style for title without preceding
+icon */
+  margin-bottom: 20px; /* Original margin from h2 */
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+.slider-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center slides if fewer than fit
+*/
+  overflow: hidden; /* Important for hiding non-active slides */
+  margin-bottom: 20px; /* Space before dots */
+}
+.slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  gap: 10px; /* Space between visible slides */
+}
+.slide {
+  width: 467px;
+  height: 379px;
+  opacity: 0.6; /* Non-centered slides are dimmer */
+  transform: scale(0.9); /* Non-centered slides are smaller */
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  border-radius: 30px;
+  overflow: hidden; /* Ensures images stay within the rounded corners */
+  background-color: #e5e7eb; /* Light gray for placeholder background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.slide.active {
+  /* The "active" slide is the one in the center conceptually */
+  opacity: 1;
+  transform: scale(1);
+}
+.slide img {
+  width: 100%;
+  height: 100%; /* Or a fixed
+height like 400px */
+  object-fit: cover; /* Or 'contain' depending on image
+aspect ratio */
+  border-radius: 8px;
+}
+.slider-btn {
+  background-color: var(--card-background-color);
+  color: var(--primary-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  z-index: 10;
+  position: absolute; /* Position them
+relative to slider-container */
+}
+.slider-btn:hover {
+  background-color: #e9ecef;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.prev-btn {
+  left: -50px; /*
+Position outside the main slide area */
+}
+.next-btn {
+  right: -50px; /* Position
+outside the main slide area */
+} /* Hide buttons if not enough slides or at ends
+*/
+.slider-btn.hidden {
+  display: none;
+}
+.slider-dots {
+  text-align: center;
+}
+.dot {
+  height: 10px;
+  width: 10px;
+  margin: 0 5px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.dot.active {
+  background-color: var(--primary-color);
+} /* --- Project Summary Section --- */
+#project-summary-section .section-card {
+  /* Uses global .section-card styles */
+}
+.icon-orange {
+  /* For the Bitcoin icon */
+  fill: #f59e0b; /* Orange color */
+}
+.summary-metrics {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(180px, 1fr)
+  ); /* Responsive grid */
+  gap: 20px;
+  margin-top: 25px;
+}
+.metric-card {
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  background-color: var(--pill-blue-bg); /* Default light blueish */
+  border: 1px solid #d1dff9;
+}
+.metric-card.accuracy {
+  background-color: #e6ffee; /* Light
+green */
+  border: 1px solid #c4f0d4;
+}
+.metric-card.accuracy strong {
+  color: #059669;
+}
+.metric-card.sources {
+  background-color: #f3e8ff; /* Light purple */
+  border: 1px solid #e1d1f5;
+}
+.metric-card.sources strong {
+  color: #7e22ce;
+}
+.metric-card span {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
+  margin-bottom: 8px;
+}
+.metric-card strong {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--pill-blue-text); /* Default text color for strong */
+} /* --- About,
+Motivation, Goal Sections (shared styles) --- */
+.icon-stroke-blue {
+  stroke: var(--primary-text-color); /* Match heading color */
+}
+.highlight-pill-container {
+  background-color: var(--pill-blue-bg); /* Default light blue for About */
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+.highlight-pill-container .pill {
+  background-color: transparent !important; /*
+Pill itself has no extra bg */
+  color: var(--pill-blue-text) !important; /* Text
+color from variable */
+  padding: 0; /* Remove default pill padding if it's just
+text in a colored box */
+  font-weight: 500;
+}
+.icon-stroke-orange {
+  stroke: #f59e0b; /* Orange for the lightbulb icon */
+} /* Styles for
+.highlight-pill-container and .pill are already defined. The background-color
+and color are overridden by inline styles or specific classes. Example for
+Motivation's yellow pill is done via inline style. Could also be:
+#motivation-section .highlight-pill-container { background-color:
+var(--pill-yellow-bg); } #motivation-section .highlight-pill-container .pill {
+color: var(--pill-yellow-text); } */ /* Specific pill color adjustments will be
+done inline style or more specific classes if many */
+.icon-stroke-green {
+  stroke: #059669; /* Green for the goal icon */
+} /* Styles for
+.highlight-pill-container and .pill are already defined. Coloring handled by
+inline style for this example. */ /* --- Team Section --- */
+#team-section .section-title-container svg {
+  /* For the Team icon */
+  fill: none; /* If it's a
+stroke icon */
+  stroke: var(--primary-text-color);
+}
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+.team-member-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background-color: var(--card-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.member-icon i {
+  font-size: 2.5rem; /* Size of user icon */
+  color: var(--secondary-text-color); /* Or a specific color */
+}
+.member-info strong {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary-text-color);
+  margin-bottom: 2px;
+}
+.member-info span {
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
+} /* --- Artifacts & References
+Section --- */
+.artifacts-list .artifact-item {
+  /* artifact-item already has
+section-card styles */
+  margin-bottom: 20px; /* Space between artifact cards */
+}
+.artifact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.artifact-header h3 {
+  margin-bottom: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.artifact-tag {
+  background-color: #e9ecef; /* Default light gray tag */
+  color: var(--secondary-text-color);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+.artifact-tag.webapp-tag {
+  background-color: #e6f7ff;
+  color: #007bff;
+}
+.artifact-tag.github-tag {
+  background-color: #f0f0f0;
+  color: #333;
+} /* Adjust
+for GitHub style */
+.artifact-tag.doc-tag {
+  background-color: #fff2e6;
+  color: #d95b00;
+}
+.view-resource-link {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  display: inline-block; /* To allow margin-top if needed */
+  margin-top: 10px;
+}
+.view-resource-link:hover {
+  text-decoration: underline;
+} /*
+--- FAQs/Feedback Section --- */
+#faq-section .section-card h3 {
+  /* Sub-heading
+"Form to raise question" */
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.appstore-tag {
+  color: var(--secondary-text-color);
+  font-weight: 400;
+  font-size: 0.9em;
+}
+.form-sub-text {
+  font-size: 0.85rem;
+  color: var(--secondary-text-color);
+  margin-bottom: 20px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: var(--primary-text-color);
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  background-color: #fdfdfd; /* Slightly off-white input bg */
+}
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 125, 255, 0.2);
+}
+.form-group textarea {
+  resize: vertical;
+}
+.file-upload-group {
+  /* The screenshot doesn't show a typical file input, more
+like a custom styled one */ /* For simplicity, using a standard one with a label
+*/
+}
+.file-upload-group input[type="file"] {
+  /* Could be hidden and styled with
+label */ /* display: none; */ /* If you want to fully customize */
+}
+.file-upload-group .file-name-display {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
+}
+.btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #3a69d1; /* Darker shade of primary */
+} /* --- More Projects
+Section --- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(280px, 1fr)
+  ); /* Shows 2-4 cards typically */
+  gap: 25px;
+}
+.project-card {
+  /* project-card has section-card styling already */
+  padding: 0; /* Override section-card padding as image is flush */
+  overflow: hidden; /*
+For image border-radius */
+}
+.project-card img {
+  width: 100%;
+  height: 180px; /*
+Adjust height as needed */
+  object-fit: cover;
+}
+.project-card-content {
+  padding: 20px;
+}
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align tags to top if text wraps */
+  margin-bottom: 10px;
+}
+.project-header h3 {
+  margin-bottom: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  flex-grow: 1; /* Allow h3 to take space */
+  margin-right: 10px; /* Space
+before tag */
+}
+.project-tag {
+  background-color: #f0f0f0; /* Default tag color
+*/
+  color: var(--secondary-text-color);
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap; /* Prevent tag from
+breaking line */
+}
+.project-tag.web3-tag {
+  background-color: #ebf2ff;
+  color: var(--pill-blue-text);
+}
+.project-tag.data-viz-tag {
+  background-color: #fff9e6;
+  color: var(--pill-yellow-text);
+}
+.project-tag.env-data-tag {
+  background-color: #e6ffee;
+  color: var(--pill-green-text);
+}
+.project-card p {
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+.view-details-link {
+  /* Similar to .view-resource-link */
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--primary-color);
+}
+.view-details-link:hover {
+  text-decoration: underline;
+}
+footer {
+  background-color: #334e68; /* dark blue */
+  color: #fff;
+  padding: 3rem 5%;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.footer-column h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;     /* ✅ Make it bold */
+  color: #ffffff;       /* ✅ Ensure it's white */
+}
+
+.footer-column ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 0.75rem;
+}
+
+.footer-column a {
+  color: #e2e8f0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.footer-column a:hover {
+  color: #ffffff;
+}
+
+footer hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 2rem;
+}
+
+footer p {
+  margin: 0;
+}
+
+footer .copyright {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 0.9rem;
+  color: #ccc;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.5rem;
+}
+
+/* --- Reviewer Feedback Section --- */
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-card {
+  background-color: var(--card-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-rating i {
+  color: var(--star-color);
+  margin-right: 2px;
+}
+
+.review-rating span {
+  font-weight: 500;
+  color: var(--secondary-text-color);
+  margin-left: 5px;
+}
+
+.review-text {
+  font-size: 0.95rem;
+  color: var(--secondary-text-color);
+  line-height: 1.5;
+}
+
+

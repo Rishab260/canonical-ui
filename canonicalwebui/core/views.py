@@ -34,6 +34,11 @@ def register(request):
 def landing_page(request):
     return render(request, 'core/landing_page.html')
 
+def app_details(request, app_id):
+    # Fetch the app/project by ID if using a model, or just render the template
+    return render(request, 'core/appDetails.html')
+
+
 
 # Landing page view displaying all approved apps
 def landing_page(request):
