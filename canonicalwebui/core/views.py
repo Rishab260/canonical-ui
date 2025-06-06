@@ -84,6 +84,9 @@ def logout_view(request):
 def is_developer(user):
     return user.is_authenticated and user.role == 'developer'
 
+def app_details(request, app_id):
+    app = get_object_or_404(App, id=app_id)
+    return render(request, 'core/app_details.html', {'app': app})
 
 # View for viewing app details
 def view_app(request, id):

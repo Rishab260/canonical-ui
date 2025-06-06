@@ -18,13 +18,6 @@ text */
   --pill-green-text: #059669; /* Darker green */
   --font-family: "Inter", sans-serif;
 }
-
-.project-card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -73,6 +66,12 @@ body {
   display: flex;
   gap: 2rem;
   list-style: none;
+}
+
+.project-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .nav-links a {
