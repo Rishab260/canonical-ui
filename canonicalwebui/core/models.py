@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models import Avg
 from django.utils.text import slugify
 
 # Custom User model
@@ -51,6 +52,7 @@ class App(models.Model):
     is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    icon = models.ImageField(upload_to='app_icons/', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -67,10 +69,8 @@ class App(models.Model):
         super().save(*args, **kwargs)
 
     def average_rating(self):
-        ratings = self.ratings.all()
-        if ratings.exists():
-            return round(sum(r.rating for r in ratings) / ratings.count(), 2)
-        return None
+        avg = self.ratings.aggregate(avg_rating=Avg('rating'))['avg_rating']
+        return round(avg, 2) if avg is not None else None
 
 class Artifact(models.Model):
     app = models.ForeignKey(App, on_delete=models.CASCADE, related_name='artifacts')

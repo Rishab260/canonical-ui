@@ -2,45 +2,59 @@ from __future__ import annotations
 
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import AppForm
-from .forms import CustomUserCreationForm
-from .models import App
-from .models import Artifact
-from .models import Category
-from .models import Screenshot
-from .models import Team
+from .forms import (
+    AppForm,
+    CustomUserCreationForm,
+    FeedbackForm,
+    RatingForm,
+)
+from .models import (
+    App,
+    Artifact,
+    Category,
+    Screenshot,
+    Team,
+    Rating,
+)
 
+# -------------------------------
+# Auth & Registration Views
+# -------------------------------
 
-# User registration view
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_admin = False  # Ensure admin cannot self-register
+            user.is_admin = False  # Prevent self-registering as admin
             user.save()
             return redirect('core:login')
     else:
         form = CustomUserCreationForm()
     return render(request, 'core/register.html', {'form': form})
 
-def landing_page(request):
-    return render(request, 'core/landing_page.html')
 
-def app_details(request, app_id):
-    # Fetch the app/project by ID if using a model, or just render the template
-    return render(request, 'core/appDetails.html')
+def logout_view(request):
+    logout(request)
+    return redirect('core:login')
 
 
+# -------------------------------
+# Utility Functions
+# -------------------------------
 
-# Landing page view displaying all approved apps
+def is_developer(user):
+    return user.is_authenticated and user.role == 'developer'
+
+
+# -------------------------------
+# Public Views
+# -------------------------------
+
 def landing_page(request):
     categories = Category.objects.all()
     teams = Team.objects.all()
@@ -58,7 +72,6 @@ def landing_page(request):
     if selected_team:
         apps = apps.filter(teams_involved__id=selected_team)
 
-    # Top Rated and Featured sections
     top_rated_apps = sorted(apps, key=lambda x: x.average_rating() or 0, reverse=True)[:4]
     featured_apps = apps.order_by('-created_at')[:4]
 
@@ -76,121 +89,133 @@ def landing_page(request):
     return render(request, 'core/landing_page.html', context)
 
 
-
-# Logout view
-def logout_view(request):
-    logout(request)
-    return redirect('core:login')
-
-
-# Check if the user is a developer
-def is_developer(user):
-    return user.is_authenticated and user.role == 'developer'
-
 def app_details(request, app_id):
     app = get_object_or_404(App, id=app_id)
+
+    ratings = app.ratings.select_related('user')
+    feedbacks = app.feedbacks.select_related('user')
+    feedback_form = FeedbackForm()
+    rating_form = RatingForm()
+
+    if request.method == 'POST':
+        if 'comment' in request.POST and request.user.is_authenticated:
+            feedback_form = FeedbackForm(request.POST)
+            if feedback_form.is_valid():
+                feedback = feedback_form.save(commit=False)
+                feedback.app = app
+                feedback.user = request.user
+                feedback.save()
+                messages.success(request, "Thanks for your feedback!")
+                return redirect('core:app_details', app_id=app_id)
+
+        if 'rating' in request.POST and request.user.is_authenticated:
+            existing = Rating.objects.filter(app=app, user=request.user).first()
+            rating_form = RatingForm(request.POST, instance=existing)
+            if rating_form.is_valid():
+                rating = rating_form.save(commit=False)
+                rating.app = app
+                rating.user = request.user
+                rating.save()
+                messages.success(request, "Thanks for your rating!")
+                return redirect('core:app_details', app_id=app_id)
+
     context = {
         'app': app,
         'screenshots': app.screenshots.all(),
         'artifacts': app.artifacts.all(),
-        'ratings': app.ratings.select_related('user'),
+        'ratings': ratings,
+        'feedbacks': feedbacks,
         'teams': app.teams_involved.all(),
+        'feedback_form': feedback_form,
+        'rating_form': rating_form,
     }
+
     return render(request, 'core/app_details.html', context)
 
 
-# View for viewing app details
 def view_app(request, id):
     app = get_object_or_404(App, id=id)
     teams_involved = app.teams_involved.all()
-    return render(
-        request, 'core/view_app.html', {
-            'app': app,
-            'teams_involved': teams_involved,
-        },
-    )
+    return render(request, 'core/view_app.html', {
+        'app': app,
+        'teams_involved': teams_involved,
+    })
 
 
-# Submit an app (developer only)
-@user_passes_test(is_developer)
+# -------------------------------
+# Developer Views
+# -------------------------------
+
 @login_required
+@user_passes_test(is_developer)
 def submit_app(request):
     if request.method == 'POST':
         form = AppForm(request.POST)
 
         if form.is_valid():
-            # Save the app instance first (without files)
             app = form.save(commit=False)
-            app.developer = request.user  # Assign the developer to the app
-            app.save()  # Save the app instance first to generate an ID
+            app.developer = request.user
+            app.icon = request.FILES.get('icon')
+            app.save()
+            form.save_m2m()
 
-            # Handle the screenshots (multiple file upload)
-            if 'screenshots' in request.FILES:
-                screenshots = request.FILES.getlist('screenshots')
-                for screenshot in screenshots:
-                    Screenshot.objects.create(
-                        app=app, image=screenshot,
-                    )  # Save each screenshot
+            # Save screenshots
+            for screenshot in request.FILES.getlist('screenshots'):
+                Screenshot.objects.create(app=app, image=screenshot)
 
-            # Handle the artifacts (file uploads)
-            if 'artifacts_files' in request.FILES:
-                artifacts_files = request.FILES.getlist('artifacts_files')
-                for artifact_file in artifacts_files:
-                    # Save document or file
-                    Artifact.objects.create(app=app, document=artifact_file)
+            # Save artifact files
+            artifact_files = request.FILES.getlist('artifacts_files')
+            artifact_descriptions = request.POST.getlist('artifacts_descriptions')
+            for file, desc in zip(artifact_files, artifact_descriptions):
+                Artifact.objects.create(app=app, document=file, description=desc)
 
-            # Handle the hyperlinks (comma-separated links)
-            artifacts_links = request.POST.get('artifacts_links', '')
-            if artifacts_links:
-                links = [link.strip() for link in artifacts_links.split(',')]
-                for link in links:
-                    Artifact.objects.create(
-                        app=app, hyperlink=link,
-                    )  # Save hyperlink
+            # Save artifact links
+            artifact_links = request.POST.getlist('artifact_links')
+            link_descriptions = request.POST.getlist('artifact_link_descriptions')
+            for url, desc in zip(artifact_links, link_descriptions):
+                if url.strip():
+                    Artifact.objects.create(app=app, hyperlink=url.strip(), description=desc)
 
-            # Show success message and redirect
-            messages.success(
-                request, 'App submitted successfully. Awaiting admin approval.',
-            )
+            messages.success(request, 'App submitted successfully. Awaiting admin approval.')
             return redirect('core:landing_page')
     else:
         form = AppForm()
 
     return render(request, 'core/submit_app.html', {'form': form})
 
-# Admin dashboard to view pending apps
 
+# -------------------------------
+# Admin Views
+# -------------------------------
 
+@login_required
 def admin_dashboard(request):
     if not request.user.is_superuser:
-        return redirect('core:landing_page')  # Redirect if not an admin
+        return redirect('core:landing_page')
 
     pending_apps = App.objects.filter(is_approved=False)
     return render(request, 'core/admin_dashboard.html', {'pending_apps': pending_apps})
 
 
-# View for app details in admin dashboard
+@login_required
 def view_app_details(request, app_id):
     app = get_object_or_404(App, id=app_id)
     if not request.user.is_superuser:
-        return redirect('core:landing_page')  # Redirect if not an admin
+        return redirect('core:landing_page')
 
     teams_involved = app.teams_involved.all()
-    return render(
-        request, 'core/app_details.html', {
-            'app': app,
-            'teams_involved': teams_involved,
-        },
-    )
+    return render(request, 'core/app_details.html', {
+        'app': app,
+        'teams_involved': teams_involved,
+    })
 
 
-# Approve app by admin
+@login_required
 def approve_app(request, app_id):
     app = get_object_or_404(App, id=app_id)
     if not request.user.is_superuser:
-        return redirect('core:landing_page')  # Redirect if not an admin
+        return redirect('core:landing_page')
 
     app.is_approved = True
     app.save()
-
     return redirect('core:admin_dashboard')
