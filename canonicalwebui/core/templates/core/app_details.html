@@ -1,395 +1,393 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page 3</title>
+    <title>{{ app.name }} - App Details</title>
+
     <link rel="stylesheet" href="{% static 'canonical-ui/appDetails.css' %}">
-    <!-- Using Google Fonts for Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons (optional, can use SVGs) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .hero-content {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 20%;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        .hero-text h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .premium-tag {
+            display: inline-block;
+            background: #f3f3f3;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.875rem;
+        }
+        .slider-btn {
+            background: #ffffffdd;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s;
+        }
+        .slider-btn:hover {
+            background: #e0e0e0;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .team-member-card {
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .member-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #4a90e2;
+        }
+        .artifact-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: box-shadow 0.3s;
+        }
+        .artifact-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .review-card {
+            background: #ffffff;
+            border-left: 4px solid #ffc107;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+        }
+        .review-card strong {
+            font-size: 1rem;
+            color: #333;
+        }
+        .review-rating {
+            display: flex;
+            align-items: center;
+            margin: 0.25rem 0 0.5rem;
+            gap: 4px;
+        }
+        .review-rating i {
+            color: #ffc107;
+        }
+        .review-card p {
+            font-size: 0.95rem;
+            color: #555;
+        }
+        .feedback-form {
+            background: #f4f6f8;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+        }
+        .feedback-form textarea {
+            width: 100%;
+            height: 100px;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        .feedback-form button {
+            margin-top: 0.75rem;
+        }
+        .rating-form-section {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+        .rating-form-section h5 {
+            margin-bottom: 1rem;
+            color: #856404;
+        }
+        .star-rating .star {
+            font-size: 28px;
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+        }
+        .star-rating .star.selected,
+        .star-rating .star:hover {
+            color: #ffc107;
+        }
+        .rating-submit-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .rating-submit-btn:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
-
 <body>
-    <header id="main-header">
-        <nav class="navbar">
-            <div class="logo">
-                    <img src="{% static 'canonical-ui/download1.png' %}" alt="Vaco Binary Logo" class="logo-img">
-            </div>
-            
+<header id="main-header">
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{% static 'canonical-ui/download1.png' %}" alt="Vaco Binary Logo" class="logo-img">
+        </div>
+        <ul class="nav-links">
+            <li><a href="/" class="active">Home</a></li>
+        </ul>
+    </nav>
+</header>
 
-            <ul class="nav-links">
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="#">Categories</a></li>
-               <!-- <li><a href="#">Industries</a></li> -->
-                <li><a href="#">About Us</a></li>
-            </ul>
+<main>
+    <!-- Hero Section -->
+    <section id="hero-section" class="container">
+        <div class="hero-content">
+            {% if app.icon %}
+                <img src="{{ app.icon.url }}" alt="App Icon" class="app-icon">
+            {% else %}
+                <img src="{% static 'canonical-ui/default-image.png' %}" alt="Default App Icon" class="app-icon">
+            {% endif %}
 
-            <div class="search-bar">
-                <input type="text" placeholder="Search projects...">
-            </div>
-
-            <div class="user-actions">
-                <button class="btn btn-outline">Log Out</button>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <section id="hero-section" class="container">
-            <div class="hero-content">
-                <img src="https://cdn-icons-png.flaticon.com/512/7016/7016523.png"  alt="CryptoInsight App Icon" class="app-icon">
-                <div class="hero-text">
-                    
-                    <h1>{{app.name}}</h1>
-                    <div class="rating">
-                        <!-- Using Font Awesome stars. Replace with SVGs if preferred -->
-                        <i class="fas fa-star"></i> 
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                        <span>4.9</span>
-                    </div>
-                    <div class="premium-tag">Project Type</div>
+            <div class="hero-text">
+                <h1>{{ app.name }}</h1>
+                <div class="rating">
+                    {% with app.average_rating as avg %}
+                        {% if avg %}
+                            {% with avg|floatformat:1 as avg_str %}
+                                {% for i in "12345"|make_list %}
+                                    {% if forloop.counter <= avg %}
+                                        <i class="fas fa-star"></i>
+                                    {% elif forloop.counter0 < avg and avg_str|stringformat:"s"|slice:"-1" == "5" %}
+                                        <i class="fas fa-star-half-alt"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}
+                            <span>{{ avg }}</span>
+                        {% else %}
+                            <span>No ratings yet</span>
+                        {% endif %}
+                    {% endwith %}
                 </div>
+                <div class="premium-tag">{{ app.category.name }}</div>
             </div>
-        </section>
-        <section id="screenshots-section" class="container">
-            <div class="section-title-container no-icon-title"> <!-- Added a class for title without icon -->
-                <h2>Screenshots</h2>
-            </div>
-            <div class="slider-container">
-                <button class="slider-btn prev-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
-                <div class="slides">
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="container">
+        <h2>Screenshots</h2>
+        <div class="slider-container">
+            <div class="slides">
+                {% for screenshot in screenshots %}
+                    <div class="slide{% if forloop.first %} active{% endif %}">
+                        <img src="{{ screenshot.image.url }}" alt="Screenshot {{ forloop.counter }}">
+                    </div>
+                {% empty %}
                     <div class="slide active">
-                      <img class="placeholder" src="placeholder-screenshot-1.jpg" alt="Screenshot 1">
+                        <img src="{% static 'canonical-ui/default-image.png' %}" alt="No screenshots available">
                     </div>
-                    <div class="slide">
-                      <img class="placeholder" src="placeholder-screenshot-2.jpg" alt="Screenshot 2">
-                    </div>
-                    <div class="slide">
-                      <img class="placeholder" src="placeholder-screenshot-3.jpg" alt="Screenshot 3">
-                    </div>
-                    <div class="slide">
-                      <img class="placeholder" src="placeholder-screenshot-4.jpg" alt="Screenshot 4">
-                    </div>
-                    <!-- Add more if needed -->
-                  </div>
-                  
-                <!-- <button class="slider-btn next-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                {% endfor %}
             </div>
-            <div class="slider-dots">
-                <!-- Dots will be generated by JS -->
-            </div> -->
             <button class="slider-btn prev-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
-    <button class="slider-btn next-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
-
-        </section>
-        <section id="about-section" class="container">
-            <div class="section-card">
-              <div class="section-title-container">
-                <!-- Info Icon SVG -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-                     class="icon-stroke-blue">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="16" x2="12" y2="12"></line>
-                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
-                <h2>Project Summary</h2>
-              </div>
-              <p id="about-text" class="about-text">
-                {{app.description|truncatewords:150}}
-              </p>
-              <button id="read-more-btn" class="read-more-btn">Read More</button>
-            </div>
-          </section>
-
-        <section id="goal-section" class="container">
-            <div class="section-card">
-                <div class="section-title-container">
-                    <!-- Target/Goal Icon SVG (Placeholder) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon-stroke-green">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <circle cx="12" cy="12" r="6"></circle>
-                        <circle cx="12" cy="12" r="2"></circle>
-                    </svg>
-                    <h2>Goal</h2>
-                </div>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis error architecto laboriosam, quia nesciunt, sint officiis suscipit ab unde quam molestiae nostrum explicabo accusamus cupiditate harum, voluptatibus consequuntur recusandae sed!</p>
-            </div>
-        </section>
-        <section id="team-section" class="container">
-            <div class="section-title-container">
-                <!-- Users/Team Icon SVG (Placeholder) -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-                <h2>Developers</h2>
-            </div>
-            <div class="team-grid">
-                <div class="team-member-card">
-                    <div class="member-icon">
-                        <i class="fas fa-user-circle"></i> <!-- Placeholder user icon -->
-                    </div>
-                    <div class="member-info">
-                        <strong>{{app.developer.username}}</strong>
-                        <span>Data Science Lead</span>
-                    </div>
-                </div>
-                <div class="team-member-card">
-                    <div class="member-icon">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="member-info">
-                        <strong>Person 2</strong>
-                        <span>Financial Analyst</span>
-                    </div>
-                </div>
-                <div class="team-member-card">
-                    <div class="member-icon">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="member-info">
-                        <strong>Person 3</strong>
-                        <span>Blockchain Developer</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="artifacts-section" class="container">
-            <div class="section-title-container">
-                <!-- File/Document Icon SVG (Placeholder) -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
-                    <polyline points="13 2 13 9 20 9"></polyline>
-                </svg>
-                <h2>Artifacts & References</h2>
-            </div>
-            <div class="artifacts-list">
-                <div class="artifact-item section-card">
-                    <div class="artifact-header">
-                        <h3>Research Paper</h3>
-                        <span class="artifact-tag">PDF</span>
-                    </div>
-                    <p>A deep dive into our predictive modeling approach for cryptocurrency markets</p>
-                    <a href="#" class="view-resource-link">View Resource</a>
-                </div>
-                <div class="artifact-item section-card">
-                    <div class="artifact-header">
-                        <h3>Interactive Dashboard</h3>
-                        <span class="artifact-tag webapp-tag">Web App</span>
-                    </div>
-                    <p>Explore the live demo of our Bitcoin market analysis dashboard</p>
-                    <a href="#" class="view-resource-link">View Resource</a>
-                </div>
-                <div class="artifact-item section-card">
-                    <div class="artifact-header">
-                        <h3>GitHub Repository</h3>
-                        <span class="artifact-tag github-tag">GitHub</span>
-                    </div>
-                    <p>Access our open-source data processing and visualization libraries</p>
-                    <a href="#" class="view-resource-link">View Resource</a>
-                </div>
-                <div class="artifact-item section-card">
-                    <div class="artifact-header">
-                        <h3>Data Dictionary</h3>
-                        <span class="artifact-tag doc-tag">Documentation</span>
-                    </div>
-                    <p>Comprehensive glossary of metrics and indicators used in our analysis</p>
-                    <a href="#" class="view-resource-link">View Resource</a>
-                </div>
-            </div>
-        </section>
-        <section id="faq-section" class="container">
-            <div class="section-card">
-                <div class="section-title-container">
-                    <!-- Question/Chat Icon SVG (Placeholder) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    <h2>FAQs/Feedback</h2>
-                </div>
-                <section id="review-section" class="container">
-                    <div class="section-title-container">
-                    </div>
-                    <div class="reviews-list">
-                        <div class="review-card">
-                            <div class="review-header">
-                                <strong>John Doe</strong>
-                                <div class="review-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <span>4.5</span>
-                                </div>
-                            </div>
-                            <p class="review-text">Great work! The interface is intuitive and clean. Would love to see more data visualizations in the future.</p>
-                        </div>
-                        <div class="review-card">
-                            <div class="review-header">
-                                <strong>Jane Smith</strong>
-                                <div class="review-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <span>4.0</span>
-                                </div>
-                            </div>
-                            <p class="review-text">Impressive functionality. Easy to navigate and provides exactly the information I need.</p>
-                        </div>
-                    </div>
-                </section>
-                
-
-                <form id="feedback-form">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" placeholder="Your name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="question">Question</label>
-                        <textarea id="question" name="question" rows="5"
-                            placeholder="Type your question here..."></textarea>
-                    </div>
-                    <div class="form-group file-upload-group">
-                        <!-- Screenshot shows file upload, though text says "form upload" -->
-                        <label for="file-upload">Choose File</label>
-                        <input type="file" id="file-upload" name="file-upload">
-                        <span class="file-name-display">No file chosen</span>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit Question</button>
-                </form>
-            </div>
-        </section>
-        <section id="more-projects-section" class="container">
-            <div class="section-title-container">
-                <!-- Grid Icon SVG (Placeholder) -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="7" height="7"></rect>
-                    <rect x="14" y="3" width="7" height="7"></rect>
-                    <rect x="14" y="14" width="7" height="7"></rect>
-                    <rect x="3" y="14" width="7" height="7"></rect>
-                </svg>
-                <h2>Recommended</h2>
-            </div>
-            <div class="projects-grid">
-                <div class="project-card section-card">
-                    <img src="placeholder-project-stock.jpg" alt="Stock Market Predictor">
-                    <div class="project-card-content">
-                        <div class="project-header">
-                            <h3>Stock Market Predictor</h3>
-                            <span class="project-tag">Machine Learning</span>
-                        </div>
-                        <p>AI-driven stock price prediction tool using historical data</p>
-                        <a href="#" class="view-details-link">View Details</a>
-                    </div>
-                </div>
-                <div class="project-card section-card">
-                    <img src="placeholder-project-blockchain.jpg" alt="Blockchain Explorer">
-                    <div class="project-card-content">
-                        <div class="project-header">
-                            <h3>Blockchain Explorer</h3>
-                            <span class="project-tag web3-tag">Web3</span>
-                        </div>
-                        <p>Interactive blockchain transaction viewer and analytics</p>
-                        <a href="#" class="view-details-link">View Details</a>
-                    </div>
-                </div>
-                <div class="project-card section-card">
-                    <img src="placeholder-project-realestate.jpg" alt="Real Estate Analytics">
-                    <div class="project-card-content">
-                        <div class="project-header">
-                            <h3>Real Estate Analytics</h3>
-                            <span class="project-tag data-viz-tag">Data Visualization</span>
-                        </div>
-                        <p>Property market trends and investment opportunity finder</p>
-                        <a href="#" class="view-details-link">View Details</a>
-                    </div>
-                </div>
-                <div class="project-card section-card">
-                    <img src="placeholder-project-climate.jpg" alt="Climate Change Dashboard">
-                    <div class="project-card-content">
-                        <div class="project-header">
-                            <h3>Climate Change Dashboard</h3>
-                            <span class="project-tag env-data-tag">Environmental Data</span>
-                        </div>
-                        <p>Global climate metrics and trend analysis platform</p>
-                        <a href="#" class="view-details-link">View Details</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Sections will be added here -->
-    </main>
-
-    <footer>
-        <div class="footer-content">
-          <div class="footer-column">
-            <h3>Vaco Binary</h3>
-            <ul>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Our Team</a></li>
-            </ul>
-          </div>
-      
-          <div class="footer-column">
-            <h3>Products</h3>
-            <ul>
-              <li><a href="#">Top Rated</a></li>
-              <li><a href="#">Featured Projects</a></li>
-              <li><a href="#">New Releases</a></li>
-            </ul>
-          </div>
-      
-          <div class="footer-column">
-            <h3>Resources</h3>
-            <ul>
-              <li><a href="#">Documentation</a></li>
-              <li><a href="#">Case Studies</a></li>
-              <li><a href="#">FAQs</a></li>
-            </ul>
-          </div>
-      
-          <div class="footer-column">
-            <h3>Legal</h3>
-            <ul>
-              <li><a href="#">Terms of Service</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-            </ul>
-          </div>
+            <button class="slider-btn next-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
         </div>
-      
-        <div class="copyright">
-          <p>&copy; 2025 Vaco Binary . All rights reserved.</p>
-        </div>
-      </footer>
-      
+    </section>
 
-    <script src="page3.js"></script>
+    <!-- Project Description -->
+    <section class="container">
+        <h2>Project Summary</h2>
+        <p>{{ app.description|linebreaks }}</p>
+    </section>
+
+    <!-- Teams -->
+    <section class="container">
+        <h2>Developers & Teams</h2>
+        <div class="team-grid">
+            <div class="team-member-card">
+                <div class="member-icon"><i class="fas fa-user-circle"></i></div>
+                <div class="member-info">
+                    <strong>{{ app.developer.username }}</strong>
+                    <span>App Developer</span>
+                </div>
+            </div>
+            {% for team in teams %}
+                <div class="team-member-card">
+                    <div class="member-icon"><i class="fas fa-users"></i></div>
+                    <div class="member-info">
+                        <strong>{{ team.name }}</strong>
+                        <span>Team</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Artifacts -->
+    <section class="container">
+        <h2>Artifacts & References</h2>
+        <div class="artifacts-list">
+            {% for artifact in artifacts %}
+                <div class="artifact-item">
+                    <h3>{{ artifact.description|default:"Untitled" }}</h3>
+                    {% if artifact.document %}
+                        <a href="{{ artifact.document.url }}" target="_blank">Download File</a>
+                    {% elif artifact.hyperlink %}
+                        <a href="{{ artifact.hyperlink }}" target="_blank">Visit Link</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Ratings -->
+    <section class="container mt-5">
+        <h2>Reviews</h2>
+        {% for rating in ratings %}
+            <div class="review-card">
+                <strong>{{ rating.user.username }}</strong>
+                <div class="review-rating">
+                    {% for i in "12345"|make_list %}
+                        {% if forloop.counter <= rating.rating %}
+                            <i class="fas fa-star"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                    <span>{{ rating.rating }}</span>
+                </div>
+                <p>{{ rating.review|default:"No comment provided." }}</p>
+            </div>
+        {% empty %}
+            <p>No reviews yet.</p>
+        {% endfor %}
+    </section>
+
+    <!-- Rating Form -->
+    <section class="container mt-5">
+        <h5>Rate This App</h5>
+        {% if user.is_authenticated %}
+            <form method="post" class="mb-4">
+                {% csrf_token %}
+                <input type="hidden" name="rating" id="rating-value" value="{{ existing_rating.rating|default:'5' }}">
+                <label class="form-label d-block">Your Rating</label>
+                <div id="star-rating" class="star-rating mb-2">
+                    {% for i in "12345"|make_list %}
+                        <i class="far fa-star star" data-value="{{ forloop.counter }}"></i>
+                    {% endfor %}
+                </div>
+                {{ rating_form.review }}
+                {% if rating_form.review.errors %}
+                    <div class="text-danger">{{ rating_form.review.errors }}</div>
+                {% endif %}
+                <button type="submit" class="btn btn-success mt-2">Submit Rating</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'core:login' %}?next={{ request.path }}">Log in</a> to rate this app.</p>
+        {% endif %}
+    </section>
+
+    <!-- Feedback -->
+    <section class="container mt-5">
+        <h4>User Feedback</h4>
+        {% if feedbacks %}
+            <ul class="list-group">
+                {% for fb in feedbacks %}
+                    <li class="list-group-item">
+                        <strong>{{ fb.user.username }}</strong>: {{ fb.comment }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No feedback yet.</p>
+        {% endif %}
+    </section>
+
+    <section class="container mt-4">
+        <h5>Leave Feedback</h5>
+        {% if user.is_authenticated %}
+            <form method="post" class="mb-3">
+                {% csrf_token %}
+                {{ feedback_form.comment }}
+                {% if feedback_form.comment.errors %}
+                    <div class="text-danger">{{ feedback_form.comment.errors }}</div>
+                {% endif %}
+                <button type="submit" class="btn btn-primary mt-2">Submit Feedback</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'core:login' %}?next={{ request.path }}">Log in</a> to leave feedback.</p>
+        {% endif %}
+    </section>
+</main>
+
+<footer>
+    <div class="footer-content text-center py-3">
+        <p>&copy; 2025 Vaco Binary. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- JS -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const stars = document.querySelectorAll('.star-rating .star');
+        const ratingInput = document.getElementById('rating-value');
+
+        function highlightStars(rating) {
+            stars.forEach(star => {
+                const val = parseInt(star.dataset.value);
+                star.classList.toggle('selected', val <= rating);
+            });
+        }
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', () => highlightStars(star.dataset.value));
+            star.addEventListener('mouseout', () => highlightStars(ratingInput.value));
+            star.addEventListener('click', () => {
+                ratingInput.value = star.dataset.value;
+                highlightStars(star.dataset.value);
+            });
+        });
+
+        highlightStars(ratingInput.value || 5);
+    });
+</script>
+
+<script src="{% static 'canonical-ui/appDetails.js' %}"></script>
 </body>
-
 </html>
