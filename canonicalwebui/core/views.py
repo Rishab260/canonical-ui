@@ -45,25 +45,27 @@ def landing_page(request):
     categories = Category.objects.all()
     teams = Team.objects.all()
 
-    # Search and filter logic
     search_query = request.GET.get('search', '')
     selected_category = request.GET.get('category', '')
     selected_team = request.GET.get('team', '')
 
-    apps = App.objects.filter(is_approved=True)  # Only show approved apps
+    apps = App.objects.filter(is_approved=True)
 
     if search_query:
-        apps = apps.filter(
-            Q(name__icontains=search_query) |
-            Q(description__icontains=search_query),
-        )
+        apps = apps.filter(Q(name__icontains=search_query) | Q(description__icontains=search_query))
     if selected_category:
         apps = apps.filter(category__id=selected_category)
     if selected_team:
         apps = apps.filter(teams_involved__id=selected_team)
 
+    # Top Rated and Featured sections
+    top_rated_apps = sorted(apps, key=lambda x: x.average_rating() or 0, reverse=True)[:4]
+    featured_apps = apps.order_by('-created_at')[:4]
+
     context = {
         'apps': apps,
+        'top_rated_apps': top_rated_apps,
+        'featured_apps': featured_apps,
         'categories': categories,
         'teams': teams,
         'search_query': search_query,
@@ -72,6 +74,7 @@ def landing_page(request):
     }
 
     return render(request, 'core/landing_page.html', context)
+
 
 
 # Logout view
@@ -86,7 +89,15 @@ def is_developer(user):
 
 def app_details(request, app_id):
     app = get_object_or_404(App, id=app_id)
-    return render(request, 'core/app_details.html', {'app': app})
+    context = {
+        'app': app,
+        'screenshots': app.screenshots.all(),
+        'artifacts': app.artifacts.all(),
+        'ratings': app.ratings.select_related('user'),
+        'teams': app.teams_involved.all(),
+    }
+    return render(request, 'core/app_details.html', context)
+
 
 # View for viewing app details
 def view_app(request, id):

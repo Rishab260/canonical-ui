@@ -1,0 +1,34 @@
+{% load static %}
+<a href="{% url 'core:app_details' app_id=app.id %}" class="project-card-link">
+    <div class="project-card">
+        <div class="project-image">
+            {% if app.screenshots.first %}
+                <img src="{{ app.screenshots.first.image.url }}" alt="{{ app.name }}">
+            {% else %}
+                <img src="{% static 'canonical-ui/default-image.png' %}" alt="No image available">
+            {% endif %}
+        </div>
+        <div class="project-info">
+            <span class="project-category">{{ app.category.name }}</span>
+            <h3 class="project-title">{{ app.name }}</h3>
+            <p class="project-description">{{ app.description|truncatewords:25 }}</p>
+            <div class="project-meta">
+                <span>By {{ app.developer.username }}</span>
+                {% with app.average_rating as avg %}
+                    {% if avg %}
+                        <div class="project-rating">
+                            <span>{{ avg }}</span>
+                            <span>
+                                {% for _ in "12345"|slice:":avg"|make_list %}
+                                    ★
+                                {% endfor %}
+                            </span>
+                        </div>
+                    {% else %}
+                        <span class="project-rating">No ratings</span>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</a>

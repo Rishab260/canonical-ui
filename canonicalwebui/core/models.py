@@ -2,13 +2,12 @@ from __future__ import annotations
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MaxValueValidator
-from django.core.validators import MinValueValidator
+from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.utils.text import slugify
 
 # Custom User model
-
-
 class User(AbstractUser):
     ROLE_CHOICES = (
         ('developer', 'Developer'),
@@ -19,8 +18,6 @@ class User(AbstractUser):
     is_approved = models.BooleanField(default=False)
 
 # Team model
-
-
 class Team(models.Model):
     name = models.CharField(max_length=255)
     members = models.ManyToManyField('core.User', related_name='teams')
@@ -29,8 +26,6 @@ class Team(models.Model):
         return self.name
 
 # Category model
-
-
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
@@ -41,97 +36,82 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
-
 # Use the custom user model for foreign keys below
 User = get_user_model()
 
 # App model
-
-
 class App(models.Model):
     name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
-    category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, null=True,
-    )
-    contributors = models.ManyToManyField(
-        User, related_name='contributions', blank=True,
-    )
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    contributors = models.ManyToManyField(User, related_name='contributions', blank=True)
     teams_involved = models.ManyToManyField(Team, blank=True)
-    developer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='uploaded_apps',
-    )
+    developer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_apps')
     is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return f"/app/{self.id}/"
-    
+    def save(self, *args, **kwargs):
+        if not self.slug or App.objects.exclude(id=self.id).filter(slug=self.slug).exists():
+            base_slug = slugify(self.name)
+            slug = base_slug
+            counter = 1
+            while App.objects.exclude(id=self.id).filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
     def average_rating(self):
         ratings = self.ratings.all()
         if ratings.exists():
             return round(sum(r.rating for r in ratings) / ratings.count(), 2)
         return None
 
-
-
 class Artifact(models.Model):
-    app = models.ForeignKey(
-        App, on_delete=models.CASCADE, related_name='artifacts',
-    )
-    # For file uploads (docs, PDFs, etc.)
-    document = models.FileField(
-        upload_to='artifacts/%Y/%m/%d/', blank=True, null=True,
-    )
-    # For hyperlinks (external URLs)
+    app = models.ForeignKey(App, on_delete=models.CASCADE, related_name='artifacts')
+    document = models.FileField(upload_to='artifacts/%Y/%m/%d/', blank=True, null=True)
     hyperlink = models.URLField(blank=True, null=True)
-    # Optional description for the artifact
     description = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"Artifact for {self.app.name} - {self.description if self.description else 'No description'}"
 
     def is_file_type(self):
-        # Return True if it's a file (document, PDF, etc.), False if it's a hyperlink
         return bool(self.document)
 
+    def clean(self):
+        if not self.document and not self.hyperlink:
+            raise ValidationError("Provide either a document or a hyperlink.")
 
 # Screenshot model
 class Screenshot(models.Model):
-    app = models.ForeignKey(
-        App, on_delete=models.CASCADE,
-        related_name='screenshots',
-    )
+    app = models.ForeignKey(App, on_delete=models.CASCADE, related_name='screenshots')
     image = models.ImageField(upload_to='screenshots/')
 
     def __str__(self):
         return f"Screenshot for {self.app.name}"
-
 
 class Rating(models.Model):
     app = models.ForeignKey(App, on_delete=models.CASCADE, related_name='ratings')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     review = models.TextField(blank=True, null=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('app', 'user')
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.user} rated {self.app.name} - {self.rating}"
 
-
-
 class Feedback(models.Model):
-    app = models.ForeignKey(
-        App, on_delete=models.CASCADE, related_name='feedbacks',
-    )
+    app = models.ForeignKey(App, on_delete=models.CASCADE, related_name='feedbacks')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField()
 
