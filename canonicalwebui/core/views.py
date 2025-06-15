@@ -61,7 +61,7 @@ def landing_page(request):
 
     search_query = request.GET.get('search', '')
     selected_category = request.GET.get('category', '')
-    selected_team = request.GET.get('team', '')
+    
 
     apps = App.objects.filter(is_approved=True)
 
@@ -69,8 +69,7 @@ def landing_page(request):
         apps = apps.filter(Q(name__icontains=search_query) | Q(description__icontains=search_query))
     if selected_category:
         apps = apps.filter(category__id=selected_category)
-    if selected_team:
-        apps = apps.filter(teams_involved__id=selected_team)
+    
 
     top_rated_apps = sorted(apps, key=lambda x: x.average_rating() or 0, reverse=True)[:4]
     featured_apps = apps.order_by('-created_at')[:4]
@@ -80,10 +79,8 @@ def landing_page(request):
         'top_rated_apps': top_rated_apps,
         'featured_apps': featured_apps,
         'categories': categories,
-        'teams': teams,
         'search_query': search_query,
         'selected_category': selected_category,
-        'selected_team': selected_team,
     }
 
     return render(request, 'core/landing_page.html', context)

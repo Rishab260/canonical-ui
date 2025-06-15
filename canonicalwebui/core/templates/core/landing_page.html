@@ -38,14 +38,6 @@
             {% endfor %}
         </select>
 
-        <select name="team">
-            <option value="">All Teams</option>
-            {% for team in teams %}
-                <option value="{{ team.id }}" {% if selected_team == team.id|stringformat:"s" %}selected{% endif %}>
-                    {{ team.name }}
-                </option>
-            {% endfor %}
-        </select>
 
         <button type="submit">Apply</button>
     </form>
