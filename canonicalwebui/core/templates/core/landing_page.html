@@ -15,6 +15,7 @@
         </div>
         <ul class="nav-links">
             <li><a href="#" class="active">Home</a></li>
+            <li><a href="{% url 'core:about' %}">About</a></li>
         </ul>
         <form method="get" id="search-form" class="search-bar">
             <input type="text" name="search" placeholder="Search projects..." value="{{ search_query }}">

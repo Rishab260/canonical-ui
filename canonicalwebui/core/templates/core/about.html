@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Vaco Binary Semantics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            color: #2c3e50;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
+        }
+
+        .header .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .content-wrapper {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .about-section {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 50px;
+            align-items: start;
+            margin-bottom: 50px;
+        }
+
+        .text-content h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            position: relative;
+            font-weight: 600;
+        }
+
+        .text-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #87CEEB, #87CEFA);
+            border-radius: 2px;
+        }
+
+        .text-content p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #555;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        .image-section {
+            position: relative;
+        }
+
+        .professional-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #87CEEB 0%, #87CEFA 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .image-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .tech-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .tech-icon:nth-child(1) { animation-delay: 0s; }
+        .tech-icon:nth-child(2) { animation-delay: 0.5s; }
+        .tech-icon:nth-child(3) { animation-delay: 1s; }
+        .tech-icon:nth-child(4) { animation-delay: 1.5s; }
+        .tech-icon:nth-child(5) { animation-delay: 2s; }
+        .tech-icon:nth-child(6) { animation-delay: 2.5s; }
+
+        .tech-icon:hover {
+            transform: scale(1.2) rotate(5deg);
+            background: rgba(255,255,255,0.4);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .platform-description {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 40px;
+            border-left: 5px solid #87CEEB;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .platform-description h3 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .platform-description p {
+            color: #666;
+            margin-bottom: 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        .feature-card h4 {
+            color: #87CEEB;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .content-wrapper {
+                padding: 30px;
+            }
+
+            .about-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .text-content h2 {
+                font-size: 2rem;
+            }
+
+            .professional-image {
+                height: 250px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Vaco Binary Semantics</h1>
+            <p class="subtitle">Innovation • Excellence • Global Impact</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="about-section">
+                <div class="text-content">
+                    <h2>About Us</h2>
+                    <p>Vaco Binary Semantics, a subsidiary of the global Vaco group, is known for delivering end-to-end consulting, technology, and talent solutions. With a legacy of supporting enterprise clients across strategy, AI, DevOps, and data-driven domains, the company is committed to innovation, speed, and excellence in execution.</p>
+                </div>
+                
+                <div class="image-section">
+                    <div class="professional-image">
+                        <div class="image-content">
+                            <div class="icon-grid">
+                                <div class="tech-icon">🤖</div>
+                                <div class="tech-icon">⚙️</div>
+                                <div class="tech-icon">📊</div>
+                                <div class="tech-icon">🚀</div>
+                                <div class="tech-icon">💡</div>
+                                <div class="tech-icon">🎯</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <strong>Enterprise Solutions</strong><br>
+                                AI • DevOps • Strategy • Data Analytics
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="platform-description">
+                <h3>Our Internal Platform</h3>
+                <p>This platform is an internal project management and knowledge-sharing tool built to enhance visibility, documentation, and collaboration across Vaco Binary's technical and functional teams. It allows project owners and contributors to upload detailed information about each project, including its objective, scope, timeline, key milestones, and progress workflows. Each project entry is enriched with supporting artifacts such as documents, diagrams, screenshots, and external references to provide full project context. The platform also supports structured feedback at the end of each project, enabling teams to reflect, suggest improvements, and share outcomes with wider stakeholders. Designed for ease of use and scalability, this tool serves as a centralized hub to discover active initiatives, track ongoing work, and maintain a historical archive of completed projects across various departments and domains.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Project Management</h4>
+                    <p>Comprehensive project tracking with detailed timelines, milestones, and progress workflows for enhanced visibility across all initiatives.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Knowledge Sharing</h4>
+                    <p>Centralized documentation hub enabling teams to share insights, best practices, and project outcomes with stakeholders.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Collaboration Tools</h4>
+                    <p>Enhanced team collaboration features supporting cross-functional work and seamless communication across departments.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Historical Archive</h4>
+                    <p>Maintain a comprehensive archive of completed projects for reference, learning, and continuous improvement initiatives.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

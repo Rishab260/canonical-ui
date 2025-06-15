@@ -85,6 +85,8 @@ def landing_page(request):
 
     return render(request, 'core/landing_page.html', context)
 
+def about(request):
+    return render(request, 'core/about.html')
 
 def app_details(request, app_id):
     app = get_object_or_404(App, id=app_id)
