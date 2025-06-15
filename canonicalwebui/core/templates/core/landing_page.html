@@ -21,6 +21,20 @@
         <form method="get" id="search-form" class="search-bar">
             <input type="text" name="search" placeholder="Search projects..." value="{{ search_query }}">
         </form>
+        <div class="filter-bar">
+        <form method="get" class="filter-form">
+            <select name="category">
+            <option value="">All Categories</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Apply</button>
+    </form>
+</div>
+
         <a href="/admin/" class="admin-link" target="_blank">Admin Portal</a>
     </nav>
 </header>
@@ -30,21 +44,6 @@
     <p>Explore a collection of industrial projects and innovations.</p>
 </section>
 
-<div class="filter-bar">
-    <form method="get" class="filter-form">
-        <select name="category">
-            <option value="">All Categories</option>
-            {% for category in categories %}
-                <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
-                    {{ category.name }}
-                </option>
-            {% endfor %}
-        </select>
-
-
-        <button type="submit">Apply</button>
-    </form>
-</div>
 
 <!-- Section: Top Rated Projects -->
 <div class="section-title">
