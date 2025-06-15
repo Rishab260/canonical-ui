@@ -64,16 +64,7 @@
 </div>
 
 <!-- Section: Featured Projects -->
-<div class="section-title">
-    <h2>Featured Projects</h2>
-</div>
-<div class="projects-grid">
-    {% for app in featured_apps %}
-        {% include "core/partials/app_card.html" with app=app %}
-    {% empty %}
-        <p>No featured apps available.</p>
-    {% endfor %}
-</div>
+
 
 <!-- Section: All Approved Projects -->
 <div class="section-title">
