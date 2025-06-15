@@ -96,6 +96,9 @@ def app_details(request, app_id):
     feedback_form = FeedbackForm()
     rating_form = RatingForm()
 
+    app.visit_count += 1
+    app.save(update_fields=['visit_count'])
+
     if request.method == 'POST':
         if 'comment' in request.POST and request.user.is_authenticated:
             feedback_form = FeedbackForm(request.POST)
