@@ -1,284 +1,327 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About Us - Vaco Binary Semantics</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #ffffff;
-      color: #333;
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 60px;
-      color: #193d65;
-    }
-
-    .header img {
-      max-width: 300px; /* Increased logo size */
-      height: auto;
-      margin-bottom: 20px;
-    }
-
-    .header h1 {
-      font-size: 3.5rem;
-      font-weight: 700;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-
-    .subtitle {
-      font-size: 1.3rem;
-      font-weight: 300;
-    }
-
-    .content-wrapper {
-      background: #fff;
-      padding: 60px;
-      border-radius: 20px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.1);
-    }
-
-    .about-section {
-      display: grid;
-      grid-template-columns: 1fr 400px;
-      gap: 50px;
-      margin-bottom: 50px;
-    }
-
-    .text-content h2 {
-      font-size: 2.5rem;
-      font-weight: 600;
-      color: #193d65;
-      position: relative;
-      margin-bottom: 30px;
-    }
-
-    .text-content h2::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 0;
-      width: 80px;
-      height: 4px;
-      background: linear-gradient(90deg, #f3a042, #f3a042);
-      border-radius: 2px;
-    }
-
-    .text-content p {
-      font-size: 1.1rem;
-      color: #555;
-      text-align: justify;
-      line-height: 1.8;
-    }
-
-    .professional-image {
-      width: 100%;
-      height: 300px;
-      background: #ffffff;
-      color: #193d65;
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      text-align: center;
-      padding: 20px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .image-content {
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .icon-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      animation: pulse 4s ease-in-out infinite;
-    }
-
-    .tech-icon {
-      width: 50px;
-      height: 50px;
-      background: rgba(0,0,0,0.05);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      transition: all 0.3s ease;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    .tech-icon:hover {
-      transform: scale(1.2) rotate(5deg);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .platform-description {
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-      padding: 40px;
-      border-left: 5px solid #f3a042;
-      border-radius: 15px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-      margin-top: 40px;
-    }
-
-    .platform-description h3 {
-      font-size: 1.8rem;
-      color: #193d65;
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-
-    .platform-description p {
-      color: #666;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 50px;
-    }
-
-    .feature-card {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-    }
-
-    .feature-card h4 {
-      color: #193d65;
-      font-size: 1.3rem;
-      margin-bottom: 15px;
-    }
-
-    .feature-card p {
-      color: #666;
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 768px) {
-      .about-section {
-        grid-template-columns: 1fr;
-        gap: 30px;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us - Vaco Binary Semantics</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
 
-      .professional-image {
-        height: 250px;
-      }
-
-      .content-wrapper {
-        padding: 30px;
-      }
-
-      .header h1 {
-        font-size: 2.5rem;
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #ffffff;
+        color: #333;
+        line-height: 1.6;
       }
 
       .container {
-        padding: 20px 15px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <img src="{% static 'canonical-ui/download1.png' %}" alt="Logo" class="logo-img">
-      <p class="subtitle">Innovation • Excellence • Global Impact</p>
-    </div>
 
-    <div class="content-wrapper">
-      <div class="about-section">
-        <div class="text-content">
-          <h2>About Us</h2>
-          <p>Vaco Binary Semantics, part of the global Vaco group, delivers world-class consulting, technology, and staffing solutions. Since merging with Binary Semantics' Project and Managed Services division in 2017, we’ve supported global enterprises across strategy, AI, DevOps, analytics, and domain-driven solutions.</p>
-        </div>
+      .header {
+        text-align: center;
+        margin-bottom: 60px;
+        color: #193d65;
+      }
 
-        <div class="professional-image">
-          <div class="image-content">
-            <div class="icon-grid">
-              <div class="tech-icon">🤖</div>
-              <div class="tech-icon">⚙️</div>
-              <div class="tech-icon">📊</div>
-              <div class="tech-icon">🚀</div>
-              <div class="tech-icon">💡</div>
-              <div class="tech-icon">🎯</div>
-            </div>
-            <div style="text-align: center; color: #193d65; text-shadow: 1px 1px 2px rgba(0,0,0,0.15);">
-              <strong>Enterprise Solutions</strong><br>
-              AI • DevOps • Strategy • Data Analytics
+      .header img {
+        max-width: 300px; /* Increased logo size */
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      .header h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .subtitle {
+        font-size: 1.3rem;
+        font-weight: 300;
+      }
+
+      .content-wrapper {
+        background: #fff;
+        padding: 60px;
+        border-radius: 20px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+      }
+
+      .about-section {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 50px;
+        margin-bottom: 50px;
+      }
+
+      .text-content h2 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #193d65;
+        position: relative;
+        margin-bottom: 30px;
+      }
+
+      .text-content h2::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #f3a042, #f3a042);
+        border-radius: 2px;
+      }
+
+      .text-content p {
+        font-size: 1.1rem;
+        color: #555;
+        text-align: justify;
+        line-height: 1.8;
+      }
+
+      .professional-image {
+        width: 100%;
+        height: 300px;
+        background: #ffffff;
+        color: #193d65;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        text-align: center;
+        padding: 20px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .image-content {
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        animation: pulse 4s ease-in-out infinite;
+      }
+
+      .tech-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .tech-icon:hover {
+        transform: scale(1.2) rotate(5deg);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .platform-description {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 40px;
+        border-left: 5px solid #f3a042;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        margin-top: 40px;
+      }
+
+      .platform-description h3 {
+        font-size: 1.8rem;
+        color: #193d65;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .platform-description p {
+        color: #666;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Ensure two columns */
+        gap: 30px; /* Add spacing between the cards */
+        margin-top: 50px;
+      }
+
+      .feature-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      }
+
+      .feature-card h4 {
+        color: #193d65;
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+      }
+
+      .feature-card p {
+        color: #666;
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 768px) {
+        .about-section {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+
+        .professional-image {
+          height: 250px;
+        }
+
+        .content-wrapper {
+          padding: 30px;
+        }
+
+        .header h1 {
+          font-size: 2.5rem;
+        }
+
+        .container {
+          padding: 20px 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img src="{% static 'canonical-ui/download1.png' %}" alt="Vaco Binary Semantics Logo" />
+        <p class="subtitle">Innovation • Excellence • Global Impact</p>
+      </div>
+
+      <div class="content-wrapper">
+        <div class="about-section">
+          <div class="text-content">
+            <h2>About Us</h2>
+            <p>
+              Vaco Binary Semantics, part of the global Vaco group, delivers
+              world-class consulting, technology, and staffing solutions. Since
+              merging with Binary Semantics' Project and Managed Services
+              division in 2017, we’ve supported global enterprises across
+              strategy, AI, DevOps, analytics, and domain-driven solutions.
+            </p>
+          </div>
+
+          <div class="professional-image">
+            <div class="image-content">
+              <div class="icon-grid">
+                <div class="tech-icon">🤖</div>
+                <div class="tech-icon">⚙️</div>
+                <div class="tech-icon">📊</div>
+                <div class="tech-icon">🚀</div>
+                <div class="tech-icon">💡</div>
+                <div class="tech-icon">🎯</div>
+              </div>
+              <div
+                style="
+                  text-align: center;
+                  color: #193d65;
+                  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+                "
+              >
+                <strong>Enterprise Solutions</strong><br />
+                AI • DevOps • Strategy • Data Analytics
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="platform-description">
-        <h3>About This Platform</h3>
-        <p>This internal project management tool is designed to document, manage, and monitor initiatives across Vaco Binary Semantics. It enables team members to upload detailed summaries, goals, workflows, references, and artifacts for each project. Whether you’re viewing ongoing tasks or reflecting on past achievements, the platform ensures visibility, structured feedback, and seamless collaboration across domains. It's a central knowledge-sharing hub built for clarity, agility, and continual learning.</p>
-      </div>
+        <div class="platform-description">
+          <h3>About This Platform</h3>
+          <p>
+            This internal project management tool is designed to document,
+            manage, and monitor initiatives across Vaco Binary Semantics. It
+            enables team members to upload detailed summaries, goals, workflows,
+            references, and artifacts for each project. Whether you’re viewing
+            ongoing tasks or reflecting on past achievements, the platform
+            ensures visibility, structured feedback, and seamless collaboration
+            across domains. It's a central knowledge-sharing hub built for
+            clarity, agility, and continual learning.
+          </p>
+        </div>
 
-      <div class="features-grid">
-        <div class="feature-card">
-          <h4>Project Summary & Workflow</h4>
-          <p>Capture the goals, scope, artifacts, and lifecycle of each project with clarity and structure.</p>
-        </div>
-        <div class="feature-card">
-          <h4>Artifacts & Documentation</h4>
-          <p>Upload diagrams, docs, and screenshots to support your project’s narrative and workflow.</p>
-        </div>
-        <div class="feature-card">
-          <h4>Team Feedback & Review</h4>
-          <p>Provide valuable feedback at project close, enabling continuous improvement and insight.</p>
-        </div>
-        <div class="feature-card">
-          <h4>Knowledge Archive</h4>
-          <p>Maintain a searchable history of completed projects for long-term reference and learning.</p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <h4>Project Summary & Workflow</h4>
+            <p>
+              Capture the goals, scope, artifacts, and lifecycle of each project
+              with clarity and structure.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>Artifacts & Documentation</h4>
+            <p>
+              Upload diagrams, docs, and screenshots to support your project’s
+              narrative and workflow.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>Team Feedback & Review</h4>
+            <p>
+              Provide valuable feedback at project close, enabling continuous
+              improvement and insight.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>Knowledge Archive</h4>
+            <p>
+              Maintain a searchable history of completed projects for long-term
+              reference and learning.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
