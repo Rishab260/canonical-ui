@@ -343,26 +343,11 @@ form.mb-4 textarea {
     </div>
     </section>
 
-    <!-- Teams -->
+    <!-- Authors Section -->
     <section class="container">
         <h2>Authors</h2>
-        <div class="team-grid">
-            <div class="team-member-card">
-                <div class="member-icon"><i class="fas fa-user-circle"></i></div>
-                <div class="member-info">
-                    <strong>{{ app.developer.username }}</strong>
-                    <span>App Developer</span>
-                </div>
-            </div>
-            {% for team in teams %}
-                <div class="team-member-card">
-                    <div class="member-icon"><i class="fas fa-users"></i></div>
-                    <div class="member-info">
-                        <strong>{{ team.name }}</strong>
-                        <span>Team</span>
-                    </div>
-                </div>
-            {% endfor %}
+        <div class="app-meta">
+        {{ app.authors|default:"Not specified" }}
         </div>
     </section>
 
@@ -382,12 +367,12 @@ form.mb-4 textarea {
             {% endfor %}
         </div>
     </section>
-    <section class="container">
+    <!-- <section class="container">
     <div class="app-meta">
         <h2>Submitted by</h2>
         {{ app.submitter_name|default:"Anonymous" }} ({{ app.submitter_gmail|default:"Not provided" }})
     </div>
-</section>
+</section> -->
     <!-- Ratings -->
     <section class="container mt-5">
         <h2>Reviews</h2>

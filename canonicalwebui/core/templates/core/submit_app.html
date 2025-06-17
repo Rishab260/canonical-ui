@@ -25,6 +25,15 @@
             {% endif %}
         </div>
         
+        <!-- Authors -->
+        <div class="mb-3">
+            <label class="form-label">Authors</label>
+            {{ form.authors }}
+            {% if form.authors.errors %}
+            <div class="text-danger">{{ form.authors.errors }}</div>
+            {% endif %}
+        </div>
+
         <!-- Description -->
         <div class="mb-3">
             <label class="form-label">Description</label>

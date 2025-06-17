@@ -28,7 +28,7 @@ class CustomUserCreationForm(UserCreationForm):
 class AppForm(forms.ModelForm):
     class Meta:
         model = App
-        fields = ['name', 'description', 'category', 'teams_involved', 'icon', 'tech_stack']
+        fields = ['name', 'description', 'category', 'teams_involved', 'icon', 'tech_stack', 'authors']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -45,6 +45,10 @@ class AppForm(forms.ModelForm):
             'teams_involved': forms.CheckboxSelectMultiple(),
             'icon': forms.ClearableFileInput(attrs={
                 'class': 'form-control'
+            }),
+            'authors': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter author names (comma separated)'
             }),
         }
         help_texts = {

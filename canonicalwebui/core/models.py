@@ -53,8 +53,9 @@ class App(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     icon = models.ImageField(upload_to='app_icons/', blank=True, null=True)
-    visit_count = models.PositiveIntegerField(default=-1)
+    visit_count = models.PositiveIntegerField(default=0)
     tech_stack = models.CharField(max_length=255, blank=True)
+    authors = models.CharField(max_length=255, blank=True, null=True)
     # submitter_name = models.CharField(max_length=100, blank=True, null=True)
     # submitter_gmail = models.EmailField(blank=True, null=True)
 
