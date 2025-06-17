@@ -14,9 +14,15 @@
             <img src="{% static 'canonical-ui/download1.png' %}" alt="Logo" class="logo-img">
         </div>
         <ul class="nav-links">
-            <li><a href="#" class="active">Home</a></li>
-            <li><a href="{% url 'core:about' %}">About</a></li>
-            <li><a href="{% url 'core:submit_app' %}">Publish App</a></li>
+            <li>
+                <a href="{% url 'core:landing_page' %}" class="{% if request.resolver_match.url_name == 'landing_page' %}active{% endif %}">Home</a>
+            </li>
+            <li>
+                <a href="{% url 'core:about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a>
+            </li>
+            <li>
+                <a href="{% url 'core:submit_app' %}" class="{% if request.resolver_match.url_name == 'submit_app' %}active{% endif %}">+ Publish App</a>
+            </li>
         </ul>
         <form method="get" id="search-form" class="search-bar">
             <input type="text" name="search" placeholder="Search projects..." value="{{ search_query }}">
@@ -40,8 +46,8 @@
 </header>
 
 <section class="hero-section">
-    <h1>Discover Industrial Excellence</h1>
-    <p>Explore a collection of industrial projects and innovations.</p>
+    <h1>Explore Projects, Ignite Possibilities</h1>
+    <p>Delve into a dynamic portfolio of industrial innovations and solutions. Empowering our business with cutting-edge projects tailored as our needs.</p>
 </section>
 
 

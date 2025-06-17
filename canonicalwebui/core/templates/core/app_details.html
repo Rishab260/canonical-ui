@@ -164,6 +164,95 @@
             align-items: center;
             gap: 16px; /* or any spacing you want */
         }
+        .text-danger { color: #dc3545; }
+        /* Rating Stars */
+.star-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.star-rating .star {
+    font-size: 28px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star-rating .star.selected,
+.star-rating .star:hover {
+    color: #ffc107;
+}
+
+/* Rating Form */
+form.mb-4 {
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+form.mb-4 label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+form.mb-4 input[type="email"],
+form.mb-4 textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.btn.btn-success.mt-2 {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn.btn-success.mt-2:hover {
+    background-color: #218838;
+}
+
+/* Review Cards */
+.review-card {
+    background: #ffffff;
+    border-left: 4px solid #ffc107;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+.review-card strong {
+    font-size: 1rem;
+    color: #333;
+}
+
+.review-rating {
+    display: flex;
+    align-items: center;
+    margin: 0.25rem 0 0.5rem;
+    gap: 4px;
+}
+
+.review-rating i {
+    color: #ffc107;
+}
+
+.review-card p {
+    font-size: 0.95rem;
+    color: #555;
+}
         
     </style>
 </head>
@@ -247,9 +336,16 @@
         <p>{{ app.description|linebreaks }}</p>
     </section>
 
+    <!-- Tech Stack Display -->
+    <section class="container">
+    <div class="app-meta">
+        <h2>Tech Stack</h2> {{ app.tech_stack|default:"Not specified" }}
+    </div>
+    </section>
+
     <!-- Teams -->
     <section class="container">
-        <h2>Developers & Teams</h2>
+        <h2>Authors</h2>
         <div class="team-grid">
             <div class="team-member-card">
                 <div class="member-icon"><i class="fas fa-user-circle"></i></div>
@@ -286,13 +382,18 @@
             {% endfor %}
         </div>
     </section>
-
+    <section class="container">
+    <div class="app-meta">
+        <h2>Submitted by</h2>
+        {{ app.submitter_name|default:"Anonymous" }} ({{ app.submitter_gmail|default:"Not provided" }})
+    </div>
+</section>
     <!-- Ratings -->
     <section class="container mt-5">
         <h2>Reviews</h2>
         {% for rating in ratings %}
             <div class="review-card">
-                <strong>{{ rating.user.username }}</strong>
+                <strong>{{ rating.gmail }}</strong>
                 <div class="review-rating">
                     {% for i in "12345"|make_list %}
                         {% if forloop.counter <= rating.rating %}
@@ -311,28 +412,27 @@
     </section>
 
     <!-- Rating Form -->
-    <section class="container mt-5">
-        <h5>Rate This App</h5>
-        {% if user.is_authenticated %}
-            <form method="post" class="mb-4">
-                {% csrf_token %}
-                <input type="hidden" name="rating" id="rating-value" value="{{ existing_rating.rating|default:'5' }}">
-                <label class="form-label d-block">Your Rating</label>
-                <div id="star-rating" class="star-rating mb-2">
-                    {% for i in "12345"|make_list %}
-                        <i class="far fa-star star" data-value="{{ forloop.counter }}"></i>
-                    {% endfor %}
-                </div>
-                {{ rating_form.review }}
-                {% if rating_form.review.errors %}
-                    <div class="text-danger">{{ rating_form.review.errors }}</div>
-                {% endif %}
-                <button type="submit" class="btn btn-success mt-2">Submit Rating</button>
-            </form>
-        {% else %}
-            <p><a href="{% url 'core:login' %}?next={{ request.path }}">Log in</a> to rate this app.</p>
+<section class="container mt-5">
+    <h5>Rate This App</h5>
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        {{ rating_form.gmail.label_tag }}
+        {{ rating_form.gmail }}
+        <!-- {{ rating_form.rating.label_tag }} -->
+        <input type="hidden" name="rating" id="rating-value" value="{{ existing_rating.rating|default:'5' }}">
+        <label class="form-label d-block">Your Rating</label>
+        <div id="star-rating" class="star-rating mb-2">
+            {% for i in "12345"|make_list %}
+                <i class="far fa-star star" data-value="{{ forloop.counter }}"></i>
+            {% endfor %}
+        </div>
+        {{ rating_form.review }}
+        {% if rating_form.review.errors %}
+            <div class="text-danger">{{ rating_form.review.errors }}</div>
         {% endif %}
-    </section>
+        <button type="submit" class="btn btn-success mt-2">Submit Rating</button>
+    </form>
+</section>
     
     <!-- Feedback -->
     <!-- <section class="container mt-5">

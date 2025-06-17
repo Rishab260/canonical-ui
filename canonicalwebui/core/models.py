@@ -48,12 +48,15 @@ class App(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     contributors = models.ManyToManyField(User, related_name='contributions', blank=True)
     teams_involved = models.ManyToManyField(Team, blank=True)
-    developer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_apps')
+    developer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_apps',null=True, blank=True)
     is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     icon = models.ImageField(upload_to='app_icons/', blank=True, null=True)
-    visit_count = models.PositiveIntegerField(default=0)
+    visit_count = models.PositiveIntegerField(default=-1)
+    tech_stack = models.CharField(max_length=255, blank=True)
+    # submitter_name = models.CharField(max_length=100, blank=True, null=True)
+    # submitter_gmail = models.EmailField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -99,13 +102,13 @@ class Screenshot(models.Model):
 
 class Rating(models.Model):
     app = models.ForeignKey(App, on_delete=models.CASCADE, related_name='ratings')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     review = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    gmail = models.EmailField(blank=True, null=True)
 
     class Meta:
-        unique_together = ('app', 'user')
         ordering = ['-created_at']
 
     def __str__(self):

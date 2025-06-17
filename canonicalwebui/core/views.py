@@ -91,7 +91,7 @@ def about(request):
 def app_details(request, app_id):
     app = get_object_or_404(App, id=app_id)
 
-    ratings = app.ratings.select_related('user')
+    ratings = Rating.objects.filter(app=app)
     feedbacks = app.feedbacks.select_related('user')
     feedback_form = FeedbackForm()
     rating_form = RatingForm()
@@ -110,15 +110,18 @@ def app_details(request, app_id):
                 messages.success(request, "Thanks for your feedback!")
                 return redirect('core:app_details', app_id=app_id)
 
-        if 'rating' in request.POST and request.user.is_authenticated:
-            existing = Rating.objects.filter(app=app, user=request.user).first()
-            rating_form = RatingForm(request.POST, instance=existing)
+        if 'rating' in request.POST:
+            
+            rating_form = RatingForm(request.POST)
             if rating_form.is_valid():
-                rating = rating_form.save(commit=False)
-                rating.app = app
-                rating.user = request.user
-                rating.save()
-                messages.success(request, "Thanks for your rating!")
+                gmail = rating_form.cleaned_data['gmail']
+                if gmail.endswith('@gmail.com'):
+                    rating = rating_form.save(commit=False)
+                    rating.app = app
+                    if request.user.is_authenticated:
+                        rating.user = request.user
+                    rating.save()
+                    messages.success(request, "Thanks for your rating!")
                 return redirect('core:app_details', app_id=app_id)
 
     context = {
@@ -148,15 +151,16 @@ def view_app(request, id):
 # Developer Views
 # -------------------------------
 
-# @login_required
-# @user_passes_test(is_developer)
+@login_required
+@user_passes_test(is_developer)
 def submit_app(request):
     if request.method == 'POST':
-        form = AppForm(request.POST)
+        form = AppForm(request.POST, request.FILES)
 
         if form.is_valid():
             app = form.save(commit=False)
-            app.developer = request.user
+            if request.user.is_authenticated:
+                app.developer = request.user
             app.icon = request.FILES.get('icon')
             app.save()
             form.save_m2m()
@@ -191,12 +195,12 @@ def submit_app(request):
 # -------------------------------
 
 # @login_required
-# def admin_dashboard(request):
-#     if not request.user.is_superuser:
-#         return redirect('core:landing_page')
+def admin_dashboard(request):
+    if not request.user.is_superuser:
+        return redirect('core:landing_page')
 
-#     pending_apps = App.objects.filter(is_approved=False)
-#     return render(request, 'core/admin_dashboard.html', {'pending_apps': pending_apps})
+    pending_apps = App.objects.filter(is_approved=False)
+    return render(request, 'core/admin_dashboard.html', {'pending_apps': pending_apps})
 
 
 # @login_required

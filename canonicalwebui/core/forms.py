@@ -28,7 +28,7 @@ class CustomUserCreationForm(UserCreationForm):
 class AppForm(forms.ModelForm):
     class Meta:
         model = App
-        fields = ['name', 'description', 'category', 'teams_involved', 'icon']
+        fields = ['name', 'description', 'category', 'teams_involved', 'icon', 'tech_stack']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -79,7 +79,7 @@ class FeedbackForm(forms.ModelForm):
 class RatingForm(forms.ModelForm):
     class Meta:
         model = Rating
-        fields = ['rating', 'review']
+        fields = ['gmail','rating', 'review']
         widgets = {
             'rating': forms.NumberInput(attrs={'min': 1, 'max': 5, 'class': 'form-control'}),
             'review': forms.Textarea(attrs={

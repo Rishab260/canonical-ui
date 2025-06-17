@@ -65,14 +65,17 @@ header {
 }
 
 .nav-links a {
+    color: #222;
     text-decoration: none;
-    color: var(--secondary-color);
-    font-weight: 500;
-    transition: color 0.3s ease;
+    padding: 8px 18px;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
 }
 
-.nav-links a:hover {
-    color: var(--primary-color);
+.nav-links a:hover,
+.nav-links a.active {
+    background: #87CEEB;   /* Use your hover color here */
+    color: #222;           /* Or your preferred text color */
 }
 
 .search-bar {
