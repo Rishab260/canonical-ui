@@ -194,7 +194,7 @@ def submit_app(request):
 # Admin Views
 # -------------------------------
 
-# @login_required
+@login_required
 def admin_dashboard(request):
     if not request.user.is_superuser:
         return redirect('core:landing_page')
@@ -203,7 +203,7 @@ def admin_dashboard(request):
     return render(request, 'core/admin_dashboard.html', {'pending_apps': pending_apps})
 
 
-# @login_required
+@login_required
 def view_app_details(request, app_id):
     app = get_object_or_404(App, id=app_id)
     if not request.user.is_superuser:
@@ -216,7 +216,7 @@ def view_app_details(request, app_id):
     })
 
 
-# @login_required
+@login_required
 def approve_app(request, app_id):
     app = get_object_or_404(App, id=app_id)
     if not request.user.is_superuser:
