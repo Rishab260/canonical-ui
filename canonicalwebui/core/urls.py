@@ -32,5 +32,7 @@ urlpatterns = [
         views.view_app_details, name='view_app_details',
     ),
     path('app/<int:id>/', views.view_app, name='view_app'),
+    path('about/', views.about, name='about'),
+    path('submit-app/', views.submit_app, name='submit_app'),
 
 ]

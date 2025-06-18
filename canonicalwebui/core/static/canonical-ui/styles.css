@@ -65,14 +65,17 @@ header {
 }
 
 .nav-links a {
+    color: #222;
     text-decoration: none;
-    color: var(--secondary-color);
-    font-weight: 500;
-    transition: color 0.3s ease;
+    padding: 8px 18px;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
 }
 
-.nav-links a:hover {
-    color: var(--primary-color);
+.nav-links a:hover,
+.nav-links a.active {
+    background: #87CEEB;   /* Use your hover color here */
+    color: #222;           /* Or your preferred text color */
 }
 
 .search-bar {
@@ -223,11 +226,68 @@ header {
     transform: translateY(-5px);
 }
 
+/* -ui/canonicalwebui/core/static/canonical-ui/styles.css */ 
+.filter-bar {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.filter-form select {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-right: 8px;
+}
+
+.filter-form button {
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #2c3e50;
+    color: #fff;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.filter-form button:hover {
+    background: #87CEEB;
+    color: #222;
+}
+
+.admin-link {
+    margin-left: 20px;
+    padding: 8px 16px;
+    background: #2c3e50;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.admin-link:hover {
+    background: #87CEEB;
+    color: #222;
+}
+
 .project-image {
     width: 100%;
     height: 180px;
-    object-fit: cover;
     background-color: #e0e0e0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 .project-info {

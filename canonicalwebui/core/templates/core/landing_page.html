@@ -14,22 +14,22 @@
             <img src="{% static 'canonical-ui/download1.png' %}" alt="Logo" class="logo-img">
         </div>
         <ul class="nav-links">
-            <li><a href="#" class="active">Home</a></li>
+            <li>
+                <a href="{% url 'core:landing_page' %}" class="{% if request.resolver_match.url_name == 'landing_page' %}active{% endif %}">Home</a>
+            </li>
+            <li>
+                <a href="{% url 'core:about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a>
+            </li>
+            <li>
+                <a href="{% url 'core:submit_app' %}" class="{% if request.resolver_match.url_name == 'submit_app' %}active{% endif %}">+ Publish App</a>
+            </li>
         </ul>
         <form method="get" id="search-form" class="search-bar">
             <input type="text" name="search" placeholder="Search projects..." value="{{ search_query }}">
         </form>
-    </nav>
-</header>
-
-<section class="hero-section">
-    <h1>Discover Industrial Excellence</h1>
-    <p>Explore a collection of industrial projects and innovations.</p>
-</section>
-
-<div class="filter-bar">
-    <form method="get" class="filter-form">
-        <select name="category">
+        <div class="filter-bar">
+        <form method="get" class="filter-form">
+            <select name="category">
             <option value="">All Categories</option>
             {% for category in categories %}
                 <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
@@ -37,19 +37,19 @@
                 </option>
             {% endfor %}
         </select>
-
-        <select name="team">
-            <option value="">All Teams</option>
-            {% for team in teams %}
-                <option value="{{ team.id }}" {% if selected_team == team.id|stringformat:"s" %}selected{% endif %}>
-                    {{ team.name }}
-                </option>
-            {% endfor %}
-        </select>
-
         <button type="submit">Apply</button>
     </form>
 </div>
+
+        <a href="/admin/" class="admin-link" target="_blank">Admin Portal</a>
+    </nav>
+</header>
+
+<section class="hero-section">
+    <h1>Explore Projects, Ignite Possibilities</h1>
+    <p>Delve into a dynamic portfolio of industrial innovations and solutions. Empowering our business with cutting-edge projects tailored as our needs.</p>
+</section>
+
 
 <!-- Section: Top Rated Projects -->
 <div class="section-title">
@@ -64,16 +64,7 @@
 </div>
 
 <!-- Section: Featured Projects -->
-<div class="section-title">
-    <h2>Featured Projects</h2>
-</div>
-<div class="projects-grid">
-    {% for app in featured_apps %}
-        {% include "core/partials/app_card.html" with app=app %}
-    {% empty %}
-        <p>No featured apps available.</p>
-    {% endfor %}
-</div>
+
 
 <!-- Section: All Approved Projects -->
 <div class="section-title">
@@ -88,7 +79,7 @@
 </div>
 
 <footer>
-    <p>&copy; 2025 Vaco Binary. All rights reserved.</p>
+    <p>&copy; 2025 Vaco Binary Semantics. All rights reserved.</p>
 </footer>
 
 <script>

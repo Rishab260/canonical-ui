@@ -14,6 +14,7 @@
 
     <form method="post" enctype="multipart/form-data" class="bg-white p-4 rounded shadow-sm">
         {% csrf_token %}
+        
 
         <!-- App Name -->
         <div class="mb-3">
@@ -21,6 +22,15 @@
             {{ form.name }}
             {% if form.name.errors %}
                 <div class="text-danger">{{ form.name.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <!-- Authors -->
+        <div class="mb-3">
+            <label class="form-label">Authors</label>
+            {{ form.authors }}
+            {% if form.authors.errors %}
+            <div class="text-danger">{{ form.authors.errors }}</div>
             {% endif %}
         </div>
 
@@ -32,7 +42,14 @@
                 <div class="text-danger">{{ form.description.errors }}</div>
             {% endif %}
         </div>
-
+        <!-- Tech Stack -->
+        <div class="mb-3">
+            <label class="form-label">Tech Stack</label>
+            {{ form.tech_stack }}
+            {% if form.tech_stack.errors %}
+            <div class="text-danger">{{ form.tech_stack.errors }}</div>
+            {% endif %}
+        </div>
         <!-- Category -->
         <div class="mb-3">
             <label class="form-label">Category</label>
@@ -43,13 +60,13 @@
         </div>
 
         <!-- Teams Involved -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <label class="form-label">Teams Involved</label>
             {{ form.teams_involved }}
             {% if form.teams_involved.errors %}
                 <div class="text-danger">{{ form.teams_involved.errors }}</div>
             {% endif %}
-        </div>
+        </div> -->
 
         <!-- App Icon -->
         <div class="mb-3">

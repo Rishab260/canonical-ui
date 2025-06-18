@@ -61,7 +61,7 @@ def landing_page(request):
 
     search_query = request.GET.get('search', '')
     selected_category = request.GET.get('category', '')
-    selected_team = request.GET.get('team', '')
+    
 
     apps = App.objects.filter(is_approved=True)
 
@@ -69,8 +69,7 @@ def landing_page(request):
         apps = apps.filter(Q(name__icontains=search_query) | Q(description__icontains=search_query))
     if selected_category:
         apps = apps.filter(category__id=selected_category)
-    if selected_team:
-        apps = apps.filter(teams_involved__id=selected_team)
+    
 
     top_rated_apps = sorted(apps, key=lambda x: x.average_rating() or 0, reverse=True)[:4]
     featured_apps = apps.order_by('-created_at')[:4]
@@ -80,22 +79,25 @@ def landing_page(request):
         'top_rated_apps': top_rated_apps,
         'featured_apps': featured_apps,
         'categories': categories,
-        'teams': teams,
         'search_query': search_query,
         'selected_category': selected_category,
-        'selected_team': selected_team,
     }
 
     return render(request, 'core/landing_page.html', context)
 
+def about(request):
+    return render(request, 'core/about.html')
 
 def app_details(request, app_id):
     app = get_object_or_404(App, id=app_id)
 
-    ratings = app.ratings.select_related('user')
+    ratings = Rating.objects.filter(app=app)
     feedbacks = app.feedbacks.select_related('user')
     feedback_form = FeedbackForm()
     rating_form = RatingForm()
+
+    app.visit_count += 1
+    app.save(update_fields=['visit_count'])
 
     if request.method == 'POST':
         if 'comment' in request.POST and request.user.is_authenticated:
@@ -108,15 +110,18 @@ def app_details(request, app_id):
                 messages.success(request, "Thanks for your feedback!")
                 return redirect('core:app_details', app_id=app_id)
 
-        if 'rating' in request.POST and request.user.is_authenticated:
-            existing = Rating.objects.filter(app=app, user=request.user).first()
-            rating_form = RatingForm(request.POST, instance=existing)
+        if 'rating' in request.POST:
+            
+            rating_form = RatingForm(request.POST)
             if rating_form.is_valid():
-                rating = rating_form.save(commit=False)
-                rating.app = app
-                rating.user = request.user
-                rating.save()
-                messages.success(request, "Thanks for your rating!")
+                gmail = rating_form.cleaned_data['gmail']
+                if gmail.endswith('@gmail.com'):
+                    rating = rating_form.save(commit=False)
+                    rating.app = app
+                    if request.user.is_authenticated:
+                        rating.user = request.user
+                    rating.save()
+                    messages.success(request, "Thanks for your rating!")
                 return redirect('core:app_details', app_id=app_id)
 
     context = {
@@ -150,11 +155,12 @@ def view_app(request, id):
 @user_passes_test(is_developer)
 def submit_app(request):
     if request.method == 'POST':
-        form = AppForm(request.POST)
+        form = AppForm(request.POST, request.FILES)
 
         if form.is_valid():
             app = form.save(commit=False)
-            app.developer = request.user
+            if request.user.is_authenticated:
+                app.developer = request.user
             app.icon = request.FILES.get('icon')
             app.save()
             form.save_m2m()
