@@ -28,11 +28,11 @@ class CustomUserCreationForm(UserCreationForm):
 class AppForm(forms.ModelForm):
     class Meta:
         model = App
-        fields = ['name', 'description', 'category', 'teams_involved', 'icon', 'tech_stack', 'authors']
+        fields = ['name', 'description', 'category', 'teams_involved', 'icon', 'tech_stack', 'authors', 'version_type', 'version_number','requirements']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter app name'
+                'placeholder': 'Enter app name',
             }),
             'description': forms.Textarea(attrs={
                 'class': 'form-control',
@@ -50,6 +50,14 @@ class AppForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Enter author names (comma separated)'
             }),
+            'version_type': forms.Select(attrs={'class': 'form-select', 'id': 'id_version_type'}),
+            'version_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter version (e.g., 1.2.0)',
+                'id': 'id_version_number'
+            }),
+            'requirements': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter requirements'}),
+
         }
         help_texts = {
             'teams_involved': 'Select one or more teams involved in this app.',

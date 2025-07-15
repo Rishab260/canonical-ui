@@ -42,6 +42,16 @@
                 <div class="text-danger">{{ form.description.errors }}</div>
             {% endif %}
         </div>
+        
+    <div class="mb-3">
+        <label for="id_version_type" class="form-label">Version Type</label>
+        {{ form.version_type }}
+    </div>
+    <div class="mb-3" id="version-number-field" style="display: none;">
+        <label for="id_version_number" class="form-label">Version Number</label>
+        {{ form.version_number }}
+    </div>
+
         <!-- Tech Stack -->
         <div class="mb-3">
             <label class="form-label">Tech Stack</label>
@@ -83,7 +93,11 @@
             <label class="form-label">Screenshots</label>
             <input type="file" name="screenshots" multiple class="form-control">
         </div>
-
+        <div class="mb-3">
+        <label for="id_requirements" class="form-label">Requirements</label>
+            {{ form.requirements }}
+        </div>
+        
         <!-- Artifact Files -->
         <div class="mb-3">
             <label class="form-label">Artifacts (Files + Descriptions)</label>
@@ -160,6 +174,25 @@
         `;
         group.appendChild(row);
     }
+    document.addEventListener('DOMContentLoaded', function() {
+    const versionType = document.getElementById('id_version_type');
+    const versionNumberField = document.getElementById('version-number-field');
+    const versionNumberInput = document.getElementById('id_version_number');
+
+    function toggleVersionNumber() {
+        if (versionType.value === 'developed') {
+            versionNumberField.style.display = '';
+            versionNumberInput.required = true;
+        } else {
+            versionNumberField.style.display = 'none';
+            versionNumberInput.required = false;
+            versionNumberInput.value = '';
+        }
+    }
+
+    versionType.addEventListener('change', toggleVersionNumber);
+    toggleVersionNumber();
+});
 </script>
 
 </body>
