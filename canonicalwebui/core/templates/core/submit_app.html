@@ -130,6 +130,22 @@
             <button type="button" class="btn btn-outline-primary btn-sm" onclick="addArtifactLinkRow()">+ Add More Links</button>
         </div>
 
+        <!-- FAQs Section -->
+        <div class="mb-3">
+            <label class="form-label">FAQs</label>
+            <div id="faq-group">
+                <div class="row g-2 mb-2">
+                    <div class="col-md-6">
+                        <input type="text" name="faq_questions" class="form-control" placeholder="FAQ Question">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="faq_answers" class="form-control" placeholder="FAQ Answer (optional)">
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="addFAQRow()">+ Add More FAQs</button>
+        </div>
+
         <div class="text-center mt-4">
             <button type="submit" class="btn btn-success">Submit App</button>
         </div>
@@ -174,6 +190,22 @@
         `;
         group.appendChild(row);
     }
+
+    function addFAQRow() {
+        const group = document.getElementById('faq-group');
+        const row = document.createElement('div');
+        row.className = 'row g-2 mb-2';
+        row.innerHTML = `
+            <div class="col-md-6">
+                <input type="text" name="faq_questions" class="form-control" placeholder="FAQ Question">
+            </div>
+            <div class="col-md-6">
+                <input type="text" name="faq_answers" class="form-control" placeholder="FAQ Answer (optional)">
+            </div>
+        `;
+        group.appendChild(row);
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
     const versionType = document.getElementById('id_version_type');
     const versionNumberField = document.getElementById('version-number-field');

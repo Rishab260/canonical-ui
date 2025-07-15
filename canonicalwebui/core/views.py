@@ -19,6 +19,7 @@ from .models import (
     Screenshot,
     Team,
     Rating,
+    FAQ,  # Import the FAQ model
 )
 
 # -------------------------------
@@ -95,12 +96,20 @@ def app_details(request, app_id):
     feedbacks = app.feedbacks.select_related('user')
     feedback_form = FeedbackForm()
     rating_form = RatingForm()
+    faqs = FAQ.objects.filter(app=app)
 
     app.visit_count += 1
     app.save(update_fields=['visit_count'])
 
     if request.method == 'POST':
-        if 'comment' in request.POST and request.user.is_authenticated:
+        if 'faq_question' in request.POST:
+            question = request.POST.get('faq_question')
+            answer = request.POST.get('faq_answer', '').strip()
+            FAQ.objects.create(app=app, question=question, answer=answer, is_answered=bool(answer))
+            messages.success(request, "FAQ added successfully!")
+            return redirect('core:app_details', app_id=app_id)
+
+        if 'comment' in request.POST:
             feedback_form = FeedbackForm(request.POST)
             if feedback_form.is_valid():
                 feedback = feedback_form.save(commit=False)
@@ -111,15 +120,14 @@ def app_details(request, app_id):
                 return redirect('core:app_details', app_id=app_id)
 
         if 'rating' in request.POST:
-            
             rating_form = RatingForm(request.POST)
             if rating_form.is_valid():
                 gmail = rating_form.cleaned_data['gmail']
                 if gmail.endswith('@gmail.com'):
                     rating = rating_form.save(commit=False)
                     rating.app = app
-                    if request.user.is_authenticated:
-                        rating.user = request.user
+                    # if request.user.is_authenticated:
+                    #     rating.user = request.user
                     rating.save()
                     messages.success(request, "Thanks for your rating!")
                 return redirect('core:app_details', app_id=app_id)
@@ -133,6 +141,7 @@ def app_details(request, app_id):
         'teams': app.teams_involved.all(),
         'feedback_form': feedback_form,
         'rating_form': rating_form,
+        'faqs': faqs,
     }
 
     return render(request, 'core/app_details.html', context)
@@ -157,8 +166,8 @@ def submit_app(request):
 
         if form.is_valid():
             app = form.save(commit=False)
-            if request.user.is_authenticated:
-                app.developer = request.user
+            # if request.user.is_authenticated:
+            #     app.developer = request.user
             app.icon = request.FILES.get('icon')
             app.save()
             form.save_m2m()
@@ -179,6 +188,11 @@ def submit_app(request):
             for url, desc in zip(artifact_links, link_descriptions):
                 if url.strip():
                     Artifact.objects.create(app=app, hyperlink=url.strip(), description=desc)
+            # Save FAQs
+            faq_questions = request.POST.getlist('faq_questions')
+            for question in faq_questions:
+                FAQ.objects.create(app=app, question=question, answer="", is_answered=False)
+
 
             messages.success(request, 'App submitted successfully. Awaiting admin approval.')
             return redirect('core:landing_page')
