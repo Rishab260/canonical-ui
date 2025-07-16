@@ -123,13 +123,16 @@ def app_details(request, app_id):
             rating_form = RatingForm(request.POST)
             if rating_form.is_valid():
                 gmail = rating_form.cleaned_data['gmail']
-                if gmail.endswith('@gmail.com'):
+                if gmail and gmail.endswith('@gmail.com'):
                     rating = rating_form.save(commit=False)
                     rating.app = app
                     # if request.user.is_authenticated:
                     #     rating.user = request.user
                     rating.save()
                     messages.success(request, "Thanks for your rating!")
+                else:
+                    messages.error(request, "Please provide a valid Gmail address.")
+                # Redirect to the same app details page to show the updated rating
                 return redirect('core:app_details', app_id=app_id)
 
     context = {
