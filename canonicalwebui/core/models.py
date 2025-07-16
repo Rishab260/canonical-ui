@@ -133,3 +133,12 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"Feedback by {self.user} on {self.app.name}"
+
+class FAQ(models.Model):
+    app = models.ForeignKey(App, on_delete=models.CASCADE, related_name='faqs')
+    question = models.TextField()
+    answer = models.TextField(blank=True, null=True)
+    is_answered = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"FAQ for {self.app.name}: {self.question[:50]}{'...' if len(self.question) > 50 else ''}"

@@ -6,6 +6,7 @@ from django.contrib import admin
 from .models import App
 from .models import Artifact
 from .models import Category
+from .models import FAQ
 from .models import Feedback
 from .models import Rating
 from .models import Screenshot
@@ -20,3 +21,4 @@ admin.site.register(Screenshot)
 admin.site.register(Rating)
 admin.site.register(Feedback)
 admin.site.register(Artifact)
+admin.site.register(FAQ)

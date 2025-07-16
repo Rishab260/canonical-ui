@@ -379,15 +379,19 @@ form.mb-4 textarea {
     color: #555;
 }
 .screenshot-carousel-section {
-  background-color: #f1f3f5;
+  background-color: #f8f9fa;
 }
 
 .carousel-inner {
-  min-height: 500px;
+  min-height: 600px;
 }
 
-.carousel-item .card {
-  height: 100%;
+.carousel-item img {
+  max-height: 600px;
+  max-width: 90%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .carousel-control-prev-icon,
@@ -476,50 +480,44 @@ form.mb-4 textarea {
 
     <!-- Screenshots Section -->
     <!-- Screenshots Section with Bootstrap Card Carousel -->
-<section class="screenshot-carousel-section py-5">
-  <div class="container">
-    <h2 class="text-center mb-4">Screenshots</h2>
+<section class="screenshot-carousel-section py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Screenshots</h2>
 
-    <div id="screenshotsCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-  {% for screenshot in screenshots %}
-    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-  <div class="d-flex justify-content-center align-items-center" style="min-height: 550px;">
-    <div class="bg-white rounded-4 shadow-sm p-3" style="max-width: 90%; max-height: 500px;">
-      <img src="{{ screenshot.image.url }}"
-           alt="Screenshot {{ forloop.counter }}"
-           style="max-width: 100%; max-height: 100%; object-fit: contain;">
-    </div>
-  </div>
-</div>
+        <div id="screenshotsCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for screenshot in screenshots %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="d-flex justify-content-center align-items-center" style="min-height: 600px;">
+                            <img src="{{ screenshot.image.url }}"
+                                 alt="Screenshot {{ forloop.counter }}"
+                                 class="img-fluid rounded shadow"
+                                 style="max-height: 600px; max-width: 90%; object-fit: contain;">
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="carousel-item active">
+                        <div class="d-flex justify-content-center align-items-center" style="min-height: 600px;">
+                            <img src="{% static 'canonical-ui/default-image.png' %}"
+                                 alt="No screenshots available"
+                                 class="img-fluid rounded shadow"
+                                 style="max-height: 600px; max-width: 90%; object-fit: contain;">
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
 
-  {% empty %}
-    <div class="carousel-item active">
-      <div class="d-flex justify-content-center">
-        <div class="card mx-auto shadow-sm bg-light rounded-4" style="max-width: 600px;">
-          <img src="{% static 'canonical-ui/default-image.png' %}" class="card-img-top"
-               alt="No screenshots available"
-               style="height: 500px; object-fit: contain;">
-          <div class="card-body text-center">
-            <p class="card-text">No screenshots available</p>
-          </div>
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#screenshotsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#screenshotsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-      </div>
     </div>
-  {% endfor %}
-</div>
-
-      <!-- Controls -->
-      <button class="carousel-control-prev" type="button" data-bs-target="#screenshotsCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#screenshotsCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-  </div>
 </section>
     <!-- Project Description -->
     <section class="container">
@@ -574,7 +572,7 @@ form.mb-4 textarea {
   </div>
 
   <div class="spec-row">
-    <div class="spec-title">Timesphere User Guide</div>
+    <div class="spec-title">User Guide</div>
     <div class="spec-value">
       {% for artifact in artifacts %}
         {% if "user guide" in artifact.description|lower %}
@@ -675,6 +673,36 @@ form.mb-4 textarea {
             <p><a href="{% url 'core:login' %}?next={{ request.path }}">Log in</a> to leave feedback.</p>
         {% endif %}
     </section> -->
+
+    <section class="container mt-5">
+        <h2 class="mb-4">FAQs</h2>
+        {% if faqs %}
+            <div class="faq-list">
+                {% for faq in faqs %}
+                    {% if faq.is_answered and faq.answer %}
+                        <div class="faq-item mb-3 p-3 border rounded shadow-sm">
+                            <p class="mb-1"><strong>Q:</strong> {{ faq.question }}</p>
+                            <p class="text-muted"><strong>A:</strong> {{ faq.answer }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted">No FAQs available for this app.</p>
+        {% endif %}
+
+        <!-- FAQ Submission Form -->
+        <h5 class="mt-4">Add a New FAQ</h5>
+        <form method="post" class="faq-form bg-light p-4 rounded shadow-sm">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="faq-question" class="form-label">Question</label>
+                <textarea name="faq_question" id="faq-question" class="form-control" placeholder="Enter your question" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit FAQ</button>
+        </form>
+    </section>
+    
 </main>
 
 <footer>
